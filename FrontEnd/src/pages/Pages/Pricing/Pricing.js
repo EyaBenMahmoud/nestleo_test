@@ -186,7 +186,7 @@ const Pricing = () => {
                             </Row>
 
                             {/* Billing Toggle */}
-                            <div className="billing-toggle-container">
+                            {/* <div className="billing-toggle-container">
                                 <div className="billing-toggle">
                                     <span className={`toggle-option ${!isAnnual ? 'active' : ''}`}>{t('plans.monthly')}</span>
                                     <label className="toggle">
@@ -202,15 +202,15 @@ const Pricing = () => {
                                         <span className="discount-badge">{t('plans.save20')}</span>
                                     </span>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Loading State */}
-                            {loading && (
+                            {/* {loading && (
                                 <div className="loading-container">
                                     <div className="loading-spinner"></div>
                                     <p>{t('plans.loadingPlans')}</p>
                                 </div>
-                            )}
+                            )} */}
 
                             {/* Error State */}
                             {error && (
