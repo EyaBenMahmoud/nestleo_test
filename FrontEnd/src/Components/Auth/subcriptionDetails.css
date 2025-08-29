@@ -1,0 +1,7 @@
+/* Main Colors
+   #607D8B - Gris bleuté (Primary) 
+   #03A9F4 - Bleu ciel (Secondary)
+*/
+.nestly-card-header {
+  background: linear-gradient(90deg, #c1e8f0, #cbe9f3, #e0f7fa);
+}

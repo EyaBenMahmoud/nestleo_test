@@ -1,0 +1,63 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Logs
+logs/
+*.log
+logs/*.log
+debug.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Compiled files
+dist/
+build/
+tmp/
+*.tsbuildinfo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage & Testing
+coverage/
+.nyc_output/
+jest/
+junit.xml
+
+# Docker-related files
+docker-compose.override.yml
+.dockerignore
+
+# Temporary files
+*.bak
+*.orig
+*.tmp
+
+
+#Explanation of Ignored Files:
+#node_modules/: Avoid committing dependencies.
+#Logs (logs/, *.log): Exclude application logs.
+#.env files: Protect sensitive environment variables.
+#Compiled files (dist/, build/): Ignore generated build files.
+#OS and IDE-specific files (.DS_Store, .vscode/): Prevent system-specific metadata.
+#Testing coverage (coverage/): Avoid unnecessary test reports.
+#Docker-related files (.dockerignore, docker-compose.override.yml): Exclude specific configurations.

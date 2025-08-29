@@ -1,0 +1,57 @@
+invoice bugs not tied to a specefic user .
+
+delete message temshy ama 5ayba.
+
+reply / copy matemshish.
+
+css when deleteing a message i cant click the delete button when there is a lot of messages and not only one message 
+ bug also when deleting a message in top of an image the css is covered by the image 
+
+search messages ..
+
+add / remove participants for Superadmin groups 
+
+i can only remove a conversation of group by the one i created of 
+
+
+and also when i remove a conversation it deletes from both sides whish it should be deleted only from one side 
+
+
+
+delete message is not instant and also when i send a message and i want to delete it directly i need to refresh the conversation to be able to delete it and when i delete a message succeffuly its not instant and it don"t get deleted from the receiver part 
+
+
+when i start a new conversation a user becomes unamed 
+
+
+googleusers sign in with normal login interface when they have their role as user it end up to an empty template
+
+when a user start a new conversation for firt time and send a message to another user and he is on the chat intefrace the message dont show unless we refresh the page .
+
+
+
+when a user updates it deletes the current subcription .
+
+event email 
+
+list of coowners when select to assign 
+
+select participants in group 
+
+claim comment 
+
+
+remove reward onlly leave coupon rewards 
+
+
+invoice in coowner space are not tied to a specefic building insted they are tied to the user itself
+
+
+
+
+notification upon google auth worker and coowner
+chat module fix multiple compoenets
+
+
+
+subcription googleoauth worker when normal signup through sign in photo message event formulaire mismatch when selecting time proof photo don"t work upon deployement in invoices section
