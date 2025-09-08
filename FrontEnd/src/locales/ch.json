@@ -1,4 +1,11 @@
 {
+"auth":{
+    "agreeTerms": "创建帐户即表示您同意",
+    "service": "服务条款",
+    "and": "和",
+    "PrivacyPolicy": "隐私政策"
+},
+
     "Menu": "菜单",
     "Dashboards": "仪表板",
     "Analytics": "分析",

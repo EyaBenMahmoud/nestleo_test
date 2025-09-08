@@ -10,7 +10,7 @@ const EventSchema = new mongoose.Schema({
     required: true,
   },
   eventTime: {
-    type: String,
+    type: String, // Store time as a string (e.g., "14:30")
     required: true,
   },
   description: {
@@ -71,6 +71,7 @@ const EventSchema = new mongoose.Schema({
       role: { type: String },
       joinedAt: { type: Date, default: Date.now }
     }],
+    // Add this field to track users who received gamification points
     rewardedAttendees: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

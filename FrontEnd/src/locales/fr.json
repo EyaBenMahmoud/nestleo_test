@@ -2844,6 +2844,10 @@
     "rewardsMessage": "Notre programme de récompenses est en cours de développement. Restez à l’écoute pour des surprises !"
   },
   "auth": {
+    "agreeTerms":"En créant un compte, vous acceptez",
+    "service":"les Conditions d'utilisation",
+    "and":"et",
+    "PrivacyPolicy":"les Politiques de Confidentialité",
     "countryRequired": "Le pays est requis.",
     "cityRequired": "La ville est requise.",
     "firstNameRequired": "Le prénom est requis.",

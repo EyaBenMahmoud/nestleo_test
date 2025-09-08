@@ -2663,6 +2663,10 @@
     "close": "Cerrar"
   },
   "auth": {
+    "agreeTerms": "Al crear una cuenta, aceptas",
+    "service": "los Términos de servicio",
+    "and": "y",
+    "PrivacyPolicy": "la Política de privacidad",
     "countryRequired": "El país es obligatorio.",
     "cityRequired": "La ciudad es obligatoria.",
     "firstNameRequired": "El nombre es obligatorio.",
@@ -3851,6 +3855,93 @@
     "noPlans": "No se encontraron planes de suscripción activos",
     "unknownPlan": "Desconocido"
   },
+  "invoice": {
+  "title": "Lista de Facturas",
+  "pageTitle": "Facturas",
+  "types": {
+    "regular": "Regular",
+    "scheduled": "Programada"
+  },
+  "status": {
+    "all": "Todos los Estados",
+    "paid": "Pagada",
+    "unpaid": "No Pagada",
+    "pending": "Pendiente",
+    "rejected": "Rechazada"
+  },
+  "filters": {
+    "status": "Estado",
+    "dateRange": "Rango de Fechas",
+    "currency": "Moneda",
+    "search": "Buscar",
+    "allCurrencies": "Todas las Monedas",
+    "allTime": "Todo el Tiempo",
+    "today": "Hoy",
+    "thisWeek": "Esta Semana",
+    "thisMonth": "Este Mes",
+    "thisYear": "Este Año"
+  },
+  "stats": {
+    "totalInvoices": "Facturas Totales",
+    "paidInvoices": "Facturas Pagadas",
+    "unpaidInvoices": "Facturas No Pagadas",
+    "totalRevenue": "Ingresos Totales",
+    "allTime": "Todo el Tiempo",
+    "paid": "Pagada",
+    "pending": "Pendiente"
+  },
+  "buttons": {
+    "createInvoice": "Crear Factura",
+    "createRecurring": "Crear Recurrente",
+    "clearSearch": "Borrar Búsqueda"
+  },
+  "messages": {
+    "selectBuilding": "Por favor, seleccione primero un edificio.",
+    "limitReached": "Se alcanzó el límite mensual de facturas. Actualice su plan de suscripción.",
+    "recurringNotAvailable": "La función de facturas recurrentes no está disponible en su plan actual o ha alcanzado el límite.",
+    "uploadingFile": "Subiendo archivo...",
+    "uploadSuccess": "Archivo subido con éxito",
+    "uploadFailed": "Error al subir el archivo",
+    "loading": "Cargando facturas..."
+  },
+  "columns": {
+    "invoiceId": "ID DE FACTURA",
+    "building": "EDIFICIO",
+    "customer": "CLIENTE",
+    "email": "EMAIL",
+    "issueDate": "FECHA DE EMISIÓN",
+    "dueDate": "FECHA DE VENCIMIENTO",
+    "amount": "MONTO",
+    "status": "ESTADO",
+    "action": "ACCIÓN",
+    "name": "NOMBRE",
+    "frequency": "FRECUENCIA",
+    "nextRun": "PRÓXIMA EJECUCIÓN"
+  },
+  "paymentProof": {
+    "review": "Revisar Comprobante de Pago",
+    "invoiceDetails": "Detalles de la Factura",
+    "paymentInfo": "Información de Pago",
+    "document": "Documento de Comprobante de Pago",
+    "referenceNumber": "Referencia #",
+    "date": "Fecha",
+    "submitted": "Enviado",
+    "notes": "Notas",
+    "reviewNotes": "Notas de Revisión (Opcional)",
+    "notesPlaceholder": "Añadir notas sobre este comprobante de pago",
+    "downloadPDF": "Descargar PDF",
+    "viewImage": "Ver Imagen",
+    "reject": "Rechazar Comprobante",
+    "approve": "Aprobar y Marcar como Pagada"
+  },
+  "limits": {
+    "regularInvoices": "Facturas Regulares",
+    "scheduledInvoices": "Facturas Programadas",
+    "limitReached": "Límite alcanzado",
+    "approaching": "Límite cercano"
+  }
+},
+
   "contractOverview": {
     "title": "Resumen de Contratos",
     "loading": "Cargando datos de contratos...",

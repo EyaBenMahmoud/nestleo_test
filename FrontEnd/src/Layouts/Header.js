@@ -486,6 +486,8 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                 </ModalBody>
             </Modal>
             <style jsx>{`
+
+            
                 /* Building Dropdown Styling */
                 .custom-building-btn {
                     background-color: transparent !important;

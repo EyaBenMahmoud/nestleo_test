@@ -52,6 +52,7 @@ const Subscription = new mongoose.Schema({
   },
   isTrial: { type: Boolean, default: false }, 
 
+
   stripeProductId: { type: String, required: false },
   stripePriceId: { type: String, required: false },
 

@@ -2689,6 +2689,10 @@
     "close": "Chiudi"
   },
   "auth": {
+    "agreeTerms": "Creando un account, accetti",
+    "service": "i Termini di servizio",
+    "and": "e",
+    "PrivacyPolicy": "l'Informativa sulla privacy",
     "countryRequired": "Il paese è obbligatorio.",
     "cityRequired": "La città è obbligatoria.",
     "firstNameRequired": "Il nome è obbligatorio.",

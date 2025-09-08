@@ -749,6 +749,10 @@
     "close": "Close"
   },
   "auth": {
+    "agreeTerms": "By creating an account, you agree to",
+    "service": "the Terms of Service",
+    "and": "and",
+    "PrivacyPolicy": "the Privacy Policy",
     "logout": "Log Out",
     "countryRequired": "Country is required.",
     "cityRequired": "City is required.",

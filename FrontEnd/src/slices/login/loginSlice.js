@@ -98,27 +98,56 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
+const mask = (s = '') => (typeof s === 'string' && s.length > 8) ? `${s.slice(0,8)}...${s.slice(-4)}` : s;
 
-// Login User
+
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
+  // Accept the full payload (email, password, recaptchaToken, ...)
+  async (payload = {}, { rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const { email, password, recaptchaToken } = payload;
 
-      // Store token in localStorage
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", response.data.user);
+      // safe debug logs (only dev)
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('[thunk] login payload keys:', Object.keys(payload));
+        console.log('[thunk] masked recaptcha token:', mask(recaptchaToken));
       }
 
-      return {
-        user: response.data,
-        token: response.data.token,
-        message: "Login successful",
-      };
+      // Send payload in body AND token as header fallback
+      const response = await api.post(
+        "/auth/login",
+        { email, password, recaptchaToken }, // body
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-recaptcha-token': recaptchaToken || '' // header fallback
+          },
+          // timeout: 10000
+        }
+      );
+
+      // Persist token + user (ensure user is stringified)
+      if (response?.data?.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+      if (response?.data?.user) {
+        try {
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+        } catch (e) {
+          // fallback: store as string
+          localStorage.setItem("user", String(response.data.user));
+        }
+      }
+
+      // Return the server response object directly so client uses result.payload.*
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Login failed");
+      // Normalize server error payload for client checks
+      const serverData = error.response?.data;
+      const message = serverData?.message || error.message || "Login failed";
+      // keep details so client can inspect recaptchaVerified, etc.
+      return rejectWithValue(serverData ?? { message });
     }
   }
 );

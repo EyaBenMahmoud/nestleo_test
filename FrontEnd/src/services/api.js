@@ -2,7 +2,18 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // ✅ Use named import
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+   headers: { 'Content-Type': 'application/json' },
+  // timeout: 15000
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  api.interceptors.request.use(req => {
+    console.log('[api] request:', req.method, req.baseURL + req.url);
+    return req;
+  });
+  api.interceptors.response.use(r => r, e => { console.error('[api] response error:', e.message); return Promise.reject(e); });
+}
+
 
 // Add request interceptor to inject token
 api.interceptors.request.use(config => {

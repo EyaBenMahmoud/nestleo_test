@@ -552,165 +552,173 @@ const InvoiceList = () => {
   };
 
   // Columns for regular invoices
-  const regularInvoiceColumns = useMemo(
-    () => [
-      {
-        Header: (
-          <input
-            type="checkbox"
-            id="checkBoxAll"
-            className="form-check-input"
-            onClick={checkedAll}
-          />
-        ),
-        Cell: (cellProps) => (
-          <input
-            type="checkbox"
-            className="invoiceCheckBox form-check-input"
-            value={cellProps.row.original._id}
-            onChange={deleteCheckbox}
-          />
-        ),
-        id: "#",
+const regularInvoiceColumns = useMemo(
+  () => [
+    {
+      Header: (
+        <input
+          type="checkbox"
+          id="checkBoxAll"
+          className="form-check-input"
+          onClick={checkedAll}
+        />
+      ),
+      Cell: (cellProps) => (
+        <input
+          type="checkbox"
+          className="invoiceCheckBox form-check-input"
+          value={cellProps.row.original._id}
+          onChange={deleteCheckbox}
+        />
+      ),
+      id: "#",
+    },
+    {
+      Header: t("invoices.tableInvoiceId"),
+      accessor: "invoiceNumber",
+      filterable: false,
+      Cell: (cell) => (
+        <Link to={`/apps-invoices-details/${cell.row.original._id}`} className="fw-medium">
+          #{cell.value}
+        </Link>
+      ),
+    },
+    {
+      Header: t("invoices.tableBuilding"),
+      accessor: "building",
+      Cell: (cell) => {
+        const building = cell.row.original.building;
+        return <span>{building?.name || "N/A"}</span>;
       },
-      {
-        Header: t("invoices.tableInvoiceId"),
-        accessor: "invoiceNumber",
-        filterable: false,
-        Cell: (cell) => (
-          <Link to={`/apps-invoices-details/${cell.row.original._id}`} className="fw-medium">
-            #{cell.value}
-          </Link>
-        ),
-      },
-      {
-        Header: t("invoices.tableBuilding"),
-        accessor: "building",
-        Cell: (cell) => {
-          const building = cell.row.original.building;
-          return <span>{building?.name || "N/A"}</span>;
-        },
-        filterable: false,
-      },
-      {
-        Header: t("invoices.tableCustomer"),
-        accessor: "coOwner",
-        filterable: false,
-        Cell: (cell) => {
-          const coOwner = cell.row.original.coOwner;
-          const customerName = coOwner ? `${coOwner.firstName} ${coOwner.lastName}` : "Unknown";
-          const hasImage = coOwner?.avatar;
-          const initials = coOwner
-            ? `${coOwner.firstName?.charAt(0) || ''}${coOwner.lastName?.charAt(0) || ''}`.toUpperCase()
-            : '';
+      filterable: false,
+    },
+    {
+      Header: t("invoices.tableCustomer"),
+      accessor: "coOwner",
+      filterable: false,
+      Cell: (cell) => {
+        const coOwner = cell.row.original.coOwner;
+        const customerName = coOwner ? `${coOwner.firstName} ${coOwner.lastName}` : "Unknown";
+        const hasImage = coOwner?.avatar;
+        const initials = coOwner
+          ? `${coOwner.firstName?.charAt(0) || ''}${coOwner.lastName?.charAt(0) || ''}`.toUpperCase()
+          : '';
 
-          return (
-            <div className="d-flex align-items-center">
-              {hasImage ? (
-                <DropImage
-                  userId={coOwner}
-                  alt={customerName}
-                  className="avatar-xs rounded-circle me-2"
-                />
-              ) : (
-                <div className="flex-shrink-0 avatar-xs me-2">
-                  <div className="avatar-title bg-soft-primary text-primary rounded-circle">
-                    {initials}
-                  </div>
+        return (
+          <div className="d-flex align-items-center">
+            {hasImage ? (
+              <DropImage
+                userId={coOwner}
+                alt={customerName}
+                className="avatar-xs rounded-circle me-2"
+              />
+            ) : (
+              <div className="flex-shrink-0 avatar-xs me-2">
+                <div className="avatar-title bg-soft-primary text-primary rounded-circle">
+                  {initials}
                 </div>
-              )}
-              <span>{customerName}</span>
-            </div>
-          );
-        },
+              </div>
+            )}
+            <span>{customerName}</span>
+          </div>
+        );
       },
-      {
-        Header: t("invoices.tableEmail"),
-        accessor: "coOwner.email",
-        filterable: false,
-        Cell: (cell) => {
-          const coOwner = cell.row.original.coOwner;
-          return <span className="text-muted">{coOwner?.email || "N/A"}</span>;
-        },
+    },
+    {
+      Header: t("invoices.tableEmail"),
+      accessor: "coOwner.email",
+      filterable: false,
+      Cell: (cell) => {
+        const coOwner = cell.row.original.coOwner;
+        return <span className="text-muted">{coOwner?.email || "N/A"}</span>;
       },
-      {
-        Header: t("invoices.tableIssueDate"),
-        Cell: (cell) => (
-          <span>{handleValidDate(cell.row.original.date)}</span>
-        ),
-        filterable: false,
+    },
+    {
+      Header: t("invoices.tableIssueDate"),
+      Cell: (cell) => <span>{handleValidDate(cell.row.original.date)}</span>,
+      filterable: false,
+    },
+    {
+      Header: t("invoices.tableDueDate"),
+      Cell: (cell) => <span>{handleValidDate(cell.row.original.dueDate)}</span>,
+      filterable: false,
+    },
+    {
+      Header: t("invoices.tableAmount"),
+      Cell: (cell) => {
+        const invoice = cell.row.original;
+        const currencySymbol = invoice.currencySymbol || invoice.currency?.symbol || "$";
+        return (
+          <span className="fw-medium">
+            {currencySymbol}{invoice.total?.toFixed(2) || "0.00"}
+          </span>
+        );
       },
-      {
-        Header: t("invoices.tableDueDate"),
-        Cell: (cell) => (
-          <span>{handleValidDate(cell.row.original.dueDate)}</span>
-        ),
-        filterable: false,
-      },
-      {
-        Header: t("invoices.tableAmount"),
-        Cell: (cell) => {
-          const invoice = cell.row.original;
-          const currencySymbol = invoice.currencySymbol || invoice.currency?.symbol || "$";
-          return (
-            <span className="fw-medium">
-              {currencySymbol}{invoice.total?.toFixed(2) || "0.00"}
-            </span>
-          );
-        },
-        filterable: false,
-      },
-      {
-        Header: t("invoices.tableStatus"),
-        accessor: "status",
-        Cell: (cell) => {
-          const status = cell.value || "unpaid";
-          let badgeClass = "";
+      filterable: false,
+    },
+    {
+      Header: t("invoices.tableStatus"),
+      accessor: "status",
+      Cell: (cell) => {
+        // raw status (fall back to 'unpaid')
+        const raw = (cell.value || "unpaid").toString();
+        const statusLower = raw.toLowerCase();
 
-          switch (status.toLowerCase()) {
-            case 'paid':
-              badgeClass = "success";
-              break;
-            case 'pending':
-              badgeClass = "warning";
-              break;
-            case 'rejected':
-              badgeClass = "danger";
-              break;
-            case 'unpaid':
-            default:
-              badgeClass = "secondary";
-              break;
-          }
+        // map to badge classes
+        const badgeMap = {
+          paid: "success",
+          pending: "warning",
+          rejected: "danger",
+          unpaid: "secondary",
+        };
+        const badgeClass = badgeMap[statusLower] || "secondary";
 
-          return (
-            <Badge color={badgeClass} >
-              {status}
-            </Badge>
-          );
-        },
+        // Try translations in two locations:
+        // 1) invoices.status.<status>
+        // 2) invoices.<status>
+        // If neither exists, fallback to capitalized raw
+        const key1 = `invoices.status.${statusLower}`;
+        const key2 = `invoices.${statusLower}`;
+
+        const translated1 = t(key1);
+        const displayFromKey1 = translated1 !== key1 ? translated1 : null;
+
+        const translated2 = displayFromKey1 ? null : t(key2);
+        const displayFromKey2 = translated2 !== key2 ? translated2 : null;
+
+        const display = displayFromKey1 || displayFromKey2 || (raw.charAt(0).toUpperCase() + raw.slice(1));
+
+        return (
+          <Badge color={badgeClass}>
+            {display}
+          </Badge>
+        );
       },
-      {
-        Header: t("invoices.tableAction"),
-        Cell: (cell) => (
+    },
+    {
+      Header: t("invoices.tableAction"),
+      Cell: (cell) => {
+        const statusRaw = (cell.row.original.status || "unpaid").toString().toLowerCase();
+
+        return (
           <div className="d-flex gap-2">
             <Button
               color="success"
               size="sm"
               className="btn-sm"
-              title="view invoice details"
+              title={t('invoices.viewInvoiceDetails') || "View"}
               tag={Link}
               to={`/apps-invoices-details/${cell.row.original._id}`}
             >
               <i className="ri-eye-line" style={{ color: 'white' }}></i>
             </Button>
 
-            {cell.row.original.status === "unpaid" && (
+            {statusRaw === "unpaid" && (
               <Button
                 color="primary"
                 size="sm"
                 className="btn-sm"
-                title="Edit invoice"
+                title={t('invoices.editInvoice') || "Edit"}
                 onClick={() => handleEditInvoice(cell.row.original._id)}
               >
                 <i className="ri-pencil-fill align-bottom"></i>
@@ -718,24 +726,24 @@ const InvoiceList = () => {
             )}
 
             {/* Payment actions based on status */}
-            {cell.row.original.status === "pending" && cell.row.original.paymentProof && (
+            {statusRaw === "pending" && cell.row.original.paymentProof && (
               <Button
                 color="warning"
                 size="sm"
                 className="btn-sm"
-                title="Review Payement Proof"
+                title={t('invoices.reviewPaymentProof') || "Review Payment Proof"}
                 onClick={() => openProofReviewModal(cell.row.original)}
               >
                 <i className="ri-bank-card-line align-bottom"></i>
               </Button>
             )}
 
-            {cell.row.original.status !== "paid" && cell.row.original.status !== "pending" && (
+            {statusRaw !== "paid" && statusRaw !== "pending" && (
               <Button
                 color="info"
                 size="sm"
                 className="btn-sm"
-                title="Pay this invoice in cash"
+                title={t('invoices.payInvoiceCash') || "Pay"}
                 onClick={() => handlePayClick(cell.row.original)}
               >
                 <i className="ri-money-dollar-circle-line align-bottom"></i>
@@ -746,7 +754,7 @@ const InvoiceList = () => {
               color="primary"
               size="sm"
               className="btn-sm"
-              title="Download Invoice"
+              title={t('invoices.downloadInvoice') || "Download Invoice"}
               onClick={() => downloadInvoice(cell.row.original.invoiceNumber)}
             >
               <i className="ri-download-2-line align-bottom"></i>
@@ -756,17 +764,20 @@ const InvoiceList = () => {
               color="danger"
               size="sm"
               className="btn-sm"
-              title="Delete Invoice"
+              title={t('invoices.deleteInvoice') || "Delete Invoice"}
               onClick={() => onClickDelete(cell.row.original)}
             >
               <i className="ri-delete-bin-fill align-bottom"></i>
             </Button>
           </div>
-        ),
+        );
       },
-    ],
-    [checkedAll]
-  );
+    },
+  ],
+  [checkedAll, t] // include t so translations update when language changes
+);
+
+
 
   // Columns for scheduled invoices
   // Update the scheduledInvoiceColumns array to include download and preview options

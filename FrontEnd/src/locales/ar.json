@@ -204,5 +204,11 @@
     "Privacy Policy" : "سياسة الخصوصية",
     "Terms Condition" : "شروط الشرط",
     "pages" : "الصفحات",
-    "React Datatables" : "تفاعل جداول البيانات"
+    "React Datatables" : "تفاعل جداول البيانات",
+    "auth":{
+    "agreeTerms": "من خلال إنشاء حساب، فإنك توافق على",
+    "service": "شروط الخدمة",
+    "and": "و",
+    "PrivacyPolicy": "سياسة الخصوصية"
+    }
 }

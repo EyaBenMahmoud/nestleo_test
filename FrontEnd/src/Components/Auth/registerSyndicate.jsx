@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { clearError, registerUser } from '../../../src/slices/login/loginSlice';
 import AuthSlider from "../../pages/AuthenticationInner/authCarousel";
 import logoLight from "../../assets/images/logo-light.png";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Import i18next for language detection
 import i18n from '../../i18n';
@@ -13,6 +14,10 @@ import i18n from '../../i18n';
 import "../../assets/scss/pages/_nestleoAuth.scss";
 
 const RegisterSyndicate = () => {
+   const recaptchaRef = useRef(null);
+   const [recaptchaToken, setRecaptchaToken] = useState(null);
+   const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+   
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -97,6 +102,11 @@ const RegisterSyndicate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLocalError(null);
+    if (!recaptchaToken) {
+      setLocalError(t('auth.pleaseCompleteRecaptcha') || 'Please complete the reCAPTCHA.');
+      return;
+    }
+
         const errors = validateFields();
         setFieldErrors(errors);
         if (errors.firstName || errors.lastName || errors.email || errors.password || errors.phoneNumber) {
@@ -105,7 +115,9 @@ const RegisterSyndicate = () => {
         }
         // Get current language from localStorage or i18next
         const currentLanguage = localStorage.getItem('I18N_LANGUAGE') || i18n.language || 'en';
-        const formDataWithLanguage = { ...formData, language: currentLanguage };
+        const formDataWithLanguage = { ...formData, language: currentLanguage, recaptcha: recaptchaToken  };
+           try { recaptchaRef.current?.reset(); } catch (e) { /* ignore */ }
+         setRecaptchaToken(null);
         const result = await dispatch(registerUser(formDataWithLanguage));
         const backendMsg = result.payload?.message || result.payload;
         if (result.error && result.error.message === "Rejected") {
@@ -139,8 +151,9 @@ const RegisterSyndicate = () => {
                         </div>
                         <div className="nestly-auth-col-right">
                             <div className="nestly-auth-header">
-                                <h3>{t('auth.createNewAccount')}</h3>
-                                <p>{t('auth.createSyndicateAccount')}</p>
+                                {/* <h3>{t('auth.createNewAccount')}</h3> */}
+                                {/* <p>{t('auth.createSyndicateAccount')}</p> */}
+                                 <h3>{t('auth.createSyndicateAccount')}</h3>
                             </div>
                             {localError && (
                                 <div className="nestly-alert nestly-alert-danger" style={{ marginBottom: '1rem' }}>{localError}</div>
@@ -257,11 +270,25 @@ const RegisterSyndicate = () => {
                                         <div className="nestly-field-error text-danger">{fieldErrors.password}</div>
                                     )}
                                 </div>
-                             
+                                         <div className="nestly-form-group" style={{ margin: '1rem 0', textAlign: 'center' }}>
+                                           <ReCAPTCHA
+                                             ref={recaptchaRef}
+                                             sitekey={SITE_KEY}
+                                             onChange={token => setRecaptchaToken(token)}
+                                             onExpired={() => setRecaptchaToken(null)}
+                                             theme="light"
+                                           />
+                                           {localError && localError === (t('auth.pleaseCompleteRecaptcha') || 'Please complete the reCAPTCHA.') && (
+                                             <div className="nestly-field-error text-danger" style={{ marginTop: 6 }}>
+                                               {localError}
+                                             </div>
+                                           )}
+                                         </div>
+
                                 <button
                                     type="submit"
                                     className="nestly-btn nestly-btn-primary nestly-btn-block"
-                                    disabled={loading}
+                                    disabled={loading|| !recaptchaToken}
                                 >
                                     {loading ? (
                                         <>
@@ -288,6 +315,16 @@ const RegisterSyndicate = () => {
                                         {t('auth.backToHome')}
                                     </Link>
                                 </div>
+                                   <div className="nestly-form-group" style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.8rem' }}>
+                                                                <p>
+                                                                 {t('auth.agreeTerms')} <Link to="/TermsAndConditions"> {t('auth.service')} </Link> {t('auth.and')} <Link to="/privacy-policy"> {t('auth.PrivacyPolicy')} </Link>.
+                                                                </p>
+                                                                   <Link to="/landing" className="nestly-auth-link">
+                                                                        <i className="ri-arrow-left-line" style={{ fontSize: '14px', marginRight: '4px' }}></i>
+                                                                        {t('auth.backToHome')}
+                                                                    </Link>
+                                
+                                                               </div>
                             </form>
                         </div>
                     </div>
