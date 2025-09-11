@@ -1,0 +1,859 @@
+{
+  "version": "1.0.4",
+  "isActive": true,
+  "language": "en",
+  "topics": [
+    {
+      "id": "buildings",
+      "name": "Building Management",
+      "icon": "home",
+      "questions": [
+        {
+          "question": "How to add a new building?",
+          "answer": "To add a new building in Nestleo, go to the buildings interface from the sidebar and click the 'Add Building' button. You’ll need to provide details such as the name, address, city, country, blocks, and apartments. Also, enter a unique registration code for your building that co-owners can use to join."
+        },
+        {
+          "question": "How to manage apartments in a building?",
+          "answer": "You can manage apartments by going to Buildings → Select a building → 'Apartments' tab. From there, you can add new apartments, edit existing ones, assign owners, and manage specific details like size or floor number. Each apartment can be associated with a specific block for better organization."
+        },
+        {
+          "question": "How to organize buildings into blocks?",
+          "answer": "Blocks are managed in the buildings interface. Select a building, then go to the 'Blocks' tab where you can organize apartments into logical blocks or wings. Click 'Add Block,' provide a name and description, and then assign apartments to that block. This facilitates organization, especially for large properties with multiple sections."
+        },
+        {
+          "question": "How to view a building’s details?",
+          "answer": "To view a building’s details, go to the Buildings section from the sidebar and click on a building from the list. You’ll see comprehensive information, including address, city, country, total number of apartments, and occupancy rate."
+        },
+        {
+          "question": "Can I add documents related to a building?",
+          "answer": "Yes, documents can be added from the profile page. Go to the 'Documents' tab in the profile, click 'Upload New Document,' and upload the file."
+        },
+        {
+          "question": "How to add co-owners to my building?",
+          "answer": "Co-owners can join your building using the building’s unique registration code. Share this code with them, and they can use it during their registration. Alternatively, you can manually add co-owners from the building management interface in the co-owners section. Once added, they’ll have appropriate access to the building’s information and functionalities."
+        },
+        {
+          "question": "How to view all my buildings?",
+          "answer": "To view all the buildings you manage, click 'Buildings' in the main sidebar. This will display a list of all buildings. You can filter the list, search for specific buildings, and click on a building to access detailed information."
+        },
+        {
+          "question": "How to delete a building?",
+          "answer": "To delete a building, go to the buildings list, locate the building you want to delete, and click the delete icon or option in the actions menu. Note that deleting a building also removes all blocks, apartments, documents, and other associated data, so use this option cautiously. The system will prompt for confirmation before proceeding."
+        },
+        {
+          "question": "How to modify a building’s information?",
+          "answer": "To modify a building’s information, go to Buildings, select the building you want to modify, and click 'Edit' or the edit icon. You can update address details, building name, registration code, and other information. Be sure to save changes once completed."
+        },
+        {
+          "question": "How to see who the co-owners of my building are?",
+          "answer": "To see a building’s co-owners, go to the Buildings section, select the building, and navigate to the 'Co-owners' tab. This will display a list of all registered co-owners with their contact information and apartment details. You can also filter the list or search for specific co-owners."
+        },
+        {
+          "question": "How do co-owners join a building?",
+          "answer": "Co-owners can join a building during the registration process by entering the registration code provided by the syndicate administrators. After entering the code, they’ll be associated with the building and can access its information, submit claims, participate in meetings, and vote in polls."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "claims",
+      "name": "Claims",
+      "icon": "alert-circle",
+      "questions": [
+        {
+          "question": "How to submit a claim?",
+          "answer": "To submit a claim, go to Claims → 'Submit New Claim.' Fill in the title and detailed description. You can also associate a task with the claim in your building."
+        },
+        {
+          "question": "How to track my claim’s status?",
+          "answer": "Track your claims in the Claims section → 'Claims.' You’ll see all your submitted claims with their current status (pending, in progress, resolved) and any updates."
+        },
+        {
+          "question": "Can I add attachments to claims?",
+          "answer": "Currently, you cannot attach files directly to your claims. However, you can select a task to link your claim, which helps provide context. We’re working on adding attachment functionality in a future update to allow including photos or documents with claims."
+        },
+        {
+          "question": "How to view my previous claims?",
+          "answer": "To view your previous claims, go to Claims → 'Claims.' You’ll see a list of all claims you’ve submitted and those in progress."
+        },
+        {
+          "question": "How to provide additional information for my claim?",
+          "answer": "If you need to provide additional information for an existing claim, go to Claims → 'Claims,' select the relevant claim, and click the 'Edit Claim' button. You can add text notes to provide updates on the submitted claim."
+        },
+        {
+          "question": "How to update my claim’s information?",
+          "answer": "To update an existing claim, go to Claims → 'My Claims,' select the relevant claim, and click the 'Edit' button. You can modify the title, description, and other details if needed, then save the changes. The ClaimsController.updateClaim method ensures your modifications are saved correctly and notifications are sent if necessary."
+        },
+        {
+          "question": "Can I delete a claim I’ve submitted?",
+          "answer": "Yes, you can delete a claim you’ve submitted by going to Claims → 'Claims,' finding the claim, and clicking the delete button. Note that once deleted, the claim cannot be recovered."
+        },
+        {
+          "question": "How to link a claim to a task?",
+          "answer": "In the Claims section → 'Claims,' you’ll see an option to create a task from a submitted claim. This action will update the claim’s status to resolved and move it to the tasks section."
+        },
+        {
+          "question": "What happens when my claim is resolved?",
+          "answer": "When your claim is resolved, its status will change to 'Resolved.' You’ll receive a notification informing you of the resolution. Syndicate administrators can also convert claims into tasks if maintenance work or specific actions are required. You can view the resolution details in the claim history."
+        },
+        {
+          "question": "How are claims converted into tasks?",
+          "answer": "Syndicate administrators can convert claims into tasks by selecting the claim and clicking 'Convert to Task.' The ClaimsController.convertClaimToTask method handles this conversion, creating a new task with the claim’s details. The task inherits the claim’s description, location, and priority, ready for assignment to workers. The original claim is marked as resolved."
+        },
+        {
+          "question": "Are there different priority levels for claims?",
+          "answer": "Yes, when submitting a claim, you can select priority levels such as Low, Medium, or High. High-priority claims are highlighted for more urgent attention by administrators. The priority level helps administrators organize their workflow and respond to critical issues first."
+        },
+        {
+          "question": "Can I view all claims for my building as an administrator?",
+          "answer": "Yes, as a syndicate administrator, you can view all claims for your buildings by going to the Claims section. You’ll see a filterable list of all submitted claims, their statuses, and associated details. You can sort by date, priority, status, or building to efficiently manage incoming claims."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "tasks",
+      "name": "Tasks",
+      "icon": "check-square",
+      "questions": [
+        {
+          "question": "How to assign tasks to workers?",
+          "answer": "To assign tasks, go to Tasks → View task details → 'Assigned' dropdown menu to select workers. Once assigned, workers receive immediate notifications and can update the task’s status as they progress."
+        },
+        {
+          "question": "How to track task progress?",
+          "answer": "Tasks are tracked in the tasks dashboard, which displays tasks in columns by status (Available, Assigned, In Progress, Completed, Rejected). Each task shows the assignee and priority."
+        },
+        {
+          "question": "How to mark a task as completed?",
+          "answer": "Workers can mark tasks as completed by selecting the task and clicking the 'Complete' button or changing the status to 'Completed.' This triggers notifications to the administrator, who can review the completed task."
+        },
+        {
+          "question": "How to prioritize tasks?",
+          "answer": "When creating or editing tasks, set priority levels (Low, Medium, High) to help workers understand which tasks require immediate attention."
+        },
+        {
+          "question": "How to create a new task?",
+          "answer": "Syndicate administrators can create tasks by going to Tasks → Select a building → 'Create Task.' Provide a title, description, and set the priority (Low, Medium, High). Workers in the same location as the building will be notified of new available tasks."
+        },
+        {
+          "question": "How do workers find available tasks?",
+          "answer": "Workers can view available tasks in their location by going to the Tasks section. Available tasks are tailored to workers based on city and country, showing only tasks in their geographic area. This location-based matching ensures workers see relevant opportunities."
+        },
+        {
+          "question": "Can workers request to work on specific tasks?",
+          "answer": "Yes, workers can request assignment to available tasks by selecting a task and clicking 'Request Assignment.' The syndicate administrator will receive a notification of this request and can approve or reject it through the task management interface."
+        },
+        {
+          "question": "How to add comments to a task?",
+          "answer": "Workers and syndicate administrators can add comments to tasks. Open the task details, scroll to the comments section, write your comment, and post it. Comments allow tracking progress, asking questions, or providing additional task information."
+        },
+        {
+          "question": "How does location-based task assignment work?",
+          "answer": "The system uses your registered location (city and country) to match you with nearby tasks. Workers only see tasks in their geographic area, and administrators can search for workers based on their proximity to a specific building location."
+        },
+        {
+          "question": "How to find available workers for a task?",
+          "answer": "Syndicate administrators can find available workers by going to Tasks → Task details → 'Select Workers,' which returns a list of workers in the same geographic area as the building."
+        },
+        {
+          "question": "Can I edit a task after creating it?",
+          "answer": "Yes, task creators and administrators can edit tasks by selecting the task and clicking 'Edit,' which allows modifying the title, description, priority, and other details. Workers will be notified of significant changes to assigned tasks."
+        },
+        {
+          "question": "How are workers notified of new tasks?",
+          "answer": "When a new task is created in a worker’s location, they receive notifications through the platform’s notification system. These alerts appear on their dashboard and in the notification center."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "events",
+      "name": "Events and Calendar",
+      "icon": "calendar",
+      "questions": [
+        {
+          "question": "How to view upcoming events?",
+          "answer": "You can view all upcoming events by going to the Events section from your sidebar. The calendar view displays all scheduled events, including meetings, tasks, and community gatherings. Click on an event to see details or join virtual meetings."
+        },
+        {
+          "question": "How to join a meeting?",
+          "answer": "Join virtual meetings by opening the calendar, selecting the meeting event, and clicking 'Join Meeting' when it’s active."
+        },
+        {
+          "question": "How to participate in a poll?",
+          "answer": "To participate in polls, go to the Events section and enter an active meeting. Active polls display questions one by one with multiple-choice answers. Select your response and submit it before the set time expires. These interactions securely save your responses."
+        },
+        {
+          "question": "How to create an event?",
+          "answer": "Only syndicate administrators can create events. Go to the calendar section and click 'Create Event.' Fill in details like title, date, time, description, and select the building before finalizing this information."
+        },
+        {
+          "question": "Where can I view past events?",
+          "answer": "Past events can be viewed in the Events section by switching the calendar view to a previous month. Each past event retains its details."
+        },
+        {
+          "question": "How are polls structured in the system?",
+          "answer": "Polls consist of multiple questions, each with several options for participants to choose from. Questions are presented sequentially, with a configurable time for each question and pauses in between. Results are automatically tallied for each option."
+        },
+        {
+          "question": "Who can start a meeting?",
+          "answer": "Only syndicate administrators can start meetings. Once an event with a meeting is created, the administrator can click 'Start Meeting' when the event time arrives. Co-owners will receive notifications indicating the meeting has started and can join."
+        },
+        {
+          "question": "Will I receive notifications for upcoming events?",
+          "answer": "Yes, the system sends automatic reminders for events. You’ll receive a notification on the day of the event (in the morning) and another one hour before the event starts."
+        },
+        {
+          "question": "How to create and launch a poll during a meeting?",
+          "answer": "During a meeting, syndicate administrators can launch polls by clicking the 'Start Poll' button, presenting questions one by one to all participants. You can track responses in real-time and share results instantly or at the end of the meeting."
+        },
+        {
+          "question": "Can I end a meeting early?",
+          "answer": "Yes, as a syndicate administrator, you can end a meeting by clicking the 'End Meeting' button, which closes the room for all participants and saves poll results."
+        },
+        {
+          "question": "How long can poll questions be displayed?",
+          "answer": "When creating a poll, you can set the time for each question, allowing individual durations from 15 seconds to 5 minutes, depending on the question’s complexity. Questions automatically transition to the next after their time expires."
+        },
+        {
+          "question": "Can poll results be saved for future reference?",
+          "answer": "Yes, all poll results are automatically saved and can be viewed through the event’s details page, showing the number of votes and percentages for each option. These results can be exported as PDF files."
+        },
+        {
+          "question": "How to update or cancel an event?",
+          "answer": "To update or cancel an event, go to Events, select the event, then click 'Edit' and update the event details."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "chat",
+      "name": "Messaging System",
+      "icon": "message-square",
+      "questions": [
+        {
+          "question": "Who can I chat with?",
+          "answer": "Messaging permissions are based on roles: syndicate administrators can message co-owners and workers; co-owners can message syndicate administrators and other co-owners in their building; workers communicate with administrators and other assigned workers. Access the messaging system via the Messaging icon in the sidebar."
+        },
+        {
+          "question": "How to create group chats?",
+          "answer": "Create group chats from Messages → '+' → 'New Group.' Name your group, select participants (based on role permissions). Group admins can add/remove members, and they receive notifications."
+        },
+        {
+          "question": "Can I delete messages?",
+          "answer": "To delete your own messages, hover over the message, click the three-dot menu, and select 'Delete.' Admins can delete any message in groups they manage. Deleted messages display 'This message has been deleted.'"
+        },
+        {
+          "question": "How to share files in messaging?",
+          "answer": "Share files in messaging by clicking the attachment icon, selecting files from your device, adding an optional message, and sending. Supported formats include images, PDFs, and videos."
+        },
+        {
+          "question": "Where can I find the messaging space?",
+          "answer": "You can find the messaging space by clicking the profile icon at the top right of the screen (it looks like a speech bubble), which opens a list with a Messages button. This opens the messaging interface where you can view recent conversations, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+        },
+        {
+          "question": "How secure is the messaging system?",
+          "answer": "The messaging system uses end-to-end encryption for all messages and file transfers. Messages are securely stored in the database with access controls based on roles and user relationships. Admins cannot access private user conversations unless specific authorization is granted for support purposes."
+        },
+        {
+          "question": "Can I search previous messages?",
+          "answer": "Yes, the messaging system includes a search function that lets you search for specific messages by keyword. In any conversation, click the search icon and enter your search terms. Results show the message context, and you can click to jump directly to that point in the conversation history."
+        },
+        {
+          "question": "How do I know if someone has read my message?",
+          "answer": "Read receipts indicate when a message has been sent and delivered. A single checkmark shows the message was sent, two checkmarks show it was delivered to the recipient’s device, and two confirmed checkmarks indicate the message has been read."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "subscriptions",
+      "name": "Subscriptions",
+      "icon": "credit-card",
+      "questions": [
+        {
+          "question": "What subscription plans are available?",
+          "answer": "Nestleo offers subscription plans at various tiers: Basic (essential features), Standard (all basic features), and Premium (all features plus prioritized support). Each tier has user limits, feature access, and storage capacity. Compare plans in the Subscriptions section."
+        },
+        {
+          "question": "How to renew my subscription?",
+          "answer": "Renew your subscription through the homepage → 'Plans' → 'Subscribe.' You can renew at your current tier or upgrade to a higher tier. The system will notify you before expiration."
+        },
+        {
+          "question": "What happens when my subscription expires?",
+          "answer": "When your subscription expires, you’ll have read-only access to data. After 30 days without renewal, the account becomes inactive, requiring reactivation. All your data is retained for 90 days post-expiration."
+        },
+        {
+          "question": "How to upgrade to a higher subscription plan?",
+          "answer": "Upgrade to a higher plan through the Subscribe button on the homepage → 'Plan' → 'Subscribe.' New features are activated immediately after confirming the upgrade and payment."
+        },
+        {
+          "question": "How do recurring invoices work?",
+          "answer": "Recurring invoices are automated billing cycles for syndicate fees or regular payments. Syndicate administrators set these schedules, creating new invoices at specific intervals (monthly, quarterly, or annually) and sending automatic notifications to users when new payments are due."
+        },
+        {
+          "question": "How to cancel a subscription?",
+          "answer": "No, this functionality is not currently available."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "roles",
+      "name": "User Roles",
+      "icon": "users",
+      "questions": [
+        {
+          "question": "What’s the difference between roles?",
+          "answer": "Nestleo has three main roles: Syndicate Administrator (specific building management), Co-owner, and Worker. Each role has specific access rights and capabilities."
+        },
+        {
+          "question": "What can syndicate administrators do?",
+          "answer": "Syndicate administrators manage their assigned buildings, process claims and maintenance, create and assign tasks, manage finances and payments, schedule and lead meetings, communicate with all building members, access all building documents, and generate reports."
+        },
+        {
+          "question": "What permissions do co-owners have?",
+          "answer": "Co-owners can view their building and apartment information, submit and track claims, participate in events and polls, access shared documents, communicate with administrators and other owners, and receive notifications."
+        },
+        {
+          "question": "How do worker permissions work?",
+          "answer": "Workers have access to their task assignments, view announcements, and communicate with administrators. They can update task statuses and only view building information necessary for assigned tasks."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "notifications",
+      "name": "Notifications",
+      "icon": "bell",
+      "questions": [
+        {
+          "question": "Can I receive email notifications?",
+          "answer": "Yes, you can receive email notifications when your account is deactivated, activated, when invoices are sent, or when you’re assigned an apartment."
+        },
+        {
+          "question": "Where can I view my notification history?",
+          "answer": "View your notification history by clicking the bell icon in the top navigation bar to see recent notifications. For a complete history, go to Notifications → 'View All.'"
+        },
+        {
+          "question": "How to mark notifications as read?",
+          "answer": "Click a notification to view its details and automatically mark it as read. To mark multiple notifications as read, go to the notification center and click 'Mark All as Read' or select specific notifications and use the 'Mark as Read' option."
+        },
+        {
+          "question": "What types of notifications will I receive?",
+          "answer": "You’ll receive notifications for events relevant to your role: task assignments and updates, claim status changes, meeting reminders, payment alerts, and messages."
+        },
+        {
+          "question": "Can I delete notifications?",
+          "answer": "Yes, you can delete individual notifications by clicking the delete icon (trash can) next to each notification. To delete multiple notifications, click the 'Delete All Notifications' button."
+        },
+        {
+          "question": "Are real-time notifications supported?",
+          "answer": "Yes, the system provides real-time notifications without needing to refresh the page. When an event occurs (like new messages, task assignments, or meeting starts), you’ll receive instant alerts in your browser or device without delay."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "documents",
+      "name": "Document Management",
+      "icon": "file",
+      "questions": [
+        {
+          "question": "How to view documents?",
+          "answer": "Access building documents through Profile → Documents. If you’re a co-owner, you’ll see documents shared with all residents."
+        },
+        {
+          "question": "How to download shared documents?",
+          "answer": "To download shared documents, go to Profile, then to the desired documents, click on them to preview, and use the download button."
+        },
+        {
+          "question": "Where are important announcements stored?",
+          "answer": "Important announcements are available in multiple places: in the notification center, on your dashboard under 'Announcements,' and in Documents → 'Announcements and Notices.' Critical announcements may also appear as pop-up alerts upon login."
+        },
+        {
+          "question": "How to upload new documents?",
+          "answer": "To upload documents, go to Profile → Documents → 'Upload,' click 'Upload New Document,' select the file from your device, then click 'Upload.'"
+        },
+        {
+          "question": "Can I preview documents before downloading?",
+          "answer": "Yes, most document types (PDF) can be previewed directly in the browser. Click the document to open the preview interface."
+        },
+        {
+          "question": "How to delete documents?",
+          "answer": "To delete a document you uploaded, locate it in the documents section, click the three-dot menu, and select 'Delete.' Only document owners and administrators can delete files."
+        },
+        {
+          "question": "What document types are supported?",
+          "answer": "The system supports the PDF document format."
+        },
+        {
+          "question": "How are document permissions handled?",
+          "answer": "Document permissions are based on building association, user role, and specific sharing settings. Syndicate administrators can access all building documents, while co-owners only see documents relevant to the entire building."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "billing",
+      "name": "Billing and Payments",
+      "icon": "dollar-sign",
+      "questions": [
+        {
+          "question": "How to view my subscription payment history?",
+          "answer": "Access your payment history through Subscriptions → 'Subscription History.' This displays all past subscription dates and their statuses."
+        },
+        {
+          "question": "Where can I view my upcoming payments?",
+          "answer": "View pending payments in Invoices → 'Upcoming Invoices' or in your dashboard’s financial widget. This shows due dates, amounts, and payment statuses. You’ll receive reminders before due dates."
+        },
+        {
+          "question": "How to download payment receipts?",
+          "answer": "Download receipts from Invoices, find the invoice, and click the receipt/download icon. Receipts are PDF files with transaction details, payment confirmation, and property information."
+        },
+        {
+          "question": "How do recurring invoices work?",
+          "answer": "Recurring invoices are automatically scheduled based on the frequency set by administrators (monthly, quarterly, annually). You’ll receive notifications when new invoices are created, and the system automatically calculates the next due date."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "general",
+      "name": "General Help",
+      "icon": "help-circle",
+      "questions": [
+        {
+          "question": "What is Nestleo?",
+          "answer": "Nestleo is a comprehensive property management platform designed for multi-apartment buildings. It connects syndicate administrators, co-owners, and maintenance workers in a single ecosystem to streamline building management, maintenance, communication, and financial operations."
+        },
+        {
+          "question": "How to get started with the platform?",
+          "answer": "After your first login, you’ll be guided through a brief onboarding tour highlighting key features for your role. Complete your profile setup, verify your contact information, set your notification preferences, and explore the dashboard to familiarize yourself with the interface."
+        },
+        {
+          "question": "Where can I find help documentation?",
+          "answer": "Access help documentation through the Help icon in the navigation bar or by clicking your profile → 'Help and Support.' The knowledge base contains articles, video tutorials, and FAQs organized by topic. You can also use the search function to find specific tips."
+        },
+        {
+          "question": "How to update my profile information?",
+          "answer": "Update your profile by clicking your avatar in the top right → 'My Profile' → 'Edit.' Here, you can update personal information, contact details, profile picture, password, and notification preferences. Be sure to save changes once completed."
+        },
+        {
+          "question": "How to contact support?",
+          "answer": "Contact support through Help → 'Contact Support,' where you can submit a ticket describing your issue. For urgent questions, use the live chat function available during business hours. Premium users have access to prioritized support with faster response times."
+        },
+        {
+          "question": "Which browsers are supported?",
+          "answer": "Nestleo is compatible with all modern browsers, including Chrome (recommended), Firefox, Safari, and Edge in their latest versions. For optimal experience, we recommend keeping your browser updated. Some advanced features may have limited functionality in older browser versions."
+        },
+        {
+          "question": "Is there a mobile app available?",
+          "answer": "Yes, Nestleo offers mobile apps for iOS and Android devices, available in the App Store and Google Play Store. The mobile app provides most platform features with an interface optimized for small screens, plus push notifications and mobile-specific tools like document scanning."
+        },
+        {
+          "question": "Which languages are supported?",
+          "answer": "Currently, Nestleo is available in English, French, Spanish, and Arabic. You can change your language preference in Settings → 'Language and Region.' We’re continuously adding new languages based on user demand and regional requirements."
+        },
+        {
+          "question": "How to report a bug or suggest a feature?",
+          "answer": "Report bugs or suggest features through Help → 'Feedback' → 'Report an Issue' or 'Suggest a Feature.' Provide as much detail as possible, including screenshots if applicable. Our development team reviews all feedback and prioritizes improvements based on user needs."
+        },
+        {
+          "question": "How often is the platform updated?",
+          "answer": "Nestleo receives regular updates, typically every 2-4 weeks for minor improvements and bug fixes, with major feature releases quarterly. Updates are automatically applied to the cloud platform, while mobile app updates require manual installation from app stores."
+        }
+      ],
+      "allowedRoles": []
+    },
+    {
+      "id": "reviews",
+      "name": "Reviews and Ratings",
+      "icon": "star",
+      "questions": [
+        {
+          "question": "How to leave a review for a worker?",
+          "answer": "To leave a review for a worker, go to Tasks → 'Completed Tasks,' locate the task performed by the worker, and click 'Leave a Review.' Rate the worker on a 1-5 scale, provide a written comment, and submit."
+        },
+        {
+          "question": "How are worker ratings calculated?",
+          "answer": "Worker ratings are calculated as the average of all received reviews, aggregating scores from all completed tasks and computing a weighted average based on recency and completeness of reviews. Ratings are updated immediately when new reviews are submitted."
+        },
+        {
+          "question": "Can I view worker reviews before assigning tasks?",
+          "answer": "Yes, when selecting workers for tasks, you can click their profile in the workers tab to view their average rating and recent review comments. This helps make informed decisions when assigning important tasks."
+        },
+        {
+          "question": "How to find highly rated workers in my region?",
+          "answer": "Use the Reviews function → 'Reviews.' This will display workers in your building’s location sorted by their average rating."
+        },
+        {
+          "question": "Can I comment on reviews?",
+          "answer": "Yes, syndicate administrators can add comments to reviews. This allows providing clarifications or additional context. Workers can also respond to reviews they receive to explain circumstances or thank clients for positive feedback."
+        },
+        {
+          "question": "Can I edit or delete a review I’ve submitted?",
+          "answer": "You can edit your review by clicking 'Edit Review.' To delete a review or comment, use the delete option in the three-dot menu."
+        },
+        {
+          "question": "Are reviews anonymous?",
+          "answer": "No, reviews are attributed to the user who submits them to ensure accountability. However, if you have privacy concerns, you can contact support to discuss anonymous feedback options in special circumstances if needed."
+        },
+        {
+          "question": "How can workers improve their ratings?",
+          "answer": "Workers can improve their ratings by providing high-quality service, communicating effectively, and responding constructively to negative feedback, as more positive reviews will enhance their overall rating."
+        }
+      ],
+      "allowedRoles": []
+    }
+  ],
+  "keywords": [
+    {
+      "keyword": "add a building",
+      "answer": "To add a new building to Nestleo, go to the buildings interface from the sidebar and click the 'Add Building' button. You’ll need to provide details such as the name, address, and information about blocks and apartments."
+    },
+    {
+      "keyword": "create a new building",
+      "answer": "To add a new building to Nestleo, go to the buildings interface from the sidebar and click the 'Add Building' button. You’ll need to provide details such as the name, enter blocks, and apartment information."
+    },
+    {
+      "keyword": "new building",
+      "answer": "To add a new building to Nestleo, go to the buildings interface from the sidebar and click the 'Add Building' button. You’ll need to provide data such as the name details, enter blocks, and apartment details."
+    },
+    {
+      "keyword": "register a building",
+      "answer": "To add a new building to Nestleo, go to the buildings interface from the sidebar and click the 'Add Building' button. You’ll need to provide details such as the name, address, enter blocks, and apartment details."
+    },
+    {
+      "keyword": "find messaging",
+      "answer": "You can find the messaging space by clicking your profile icon in the main navigation bar. This opens a menu containing a 'Messages' tab. The messaging interface lets you view recent conversations, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+    },
+    {
+      "keyword": "messaging space",
+      "answer": "You can find the messaging space by clicking your profile icon in the main navigation bar. This opens a menu containing a 'Messages' tab. The messaging interface lets you view recent messages, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+    },
+    {
+      "keyword": "locate messaging",
+      "answer": "You can find the messaging space by clicking your profile icon in the main navigation bar. This opens a menu containing a 'Messages' tab. The messaging interface lets you view recent conversations, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+    },
+    {
+      "keyword": "messaging location",
+      "answer": "You can find the messaging space by clicking your profile icon in the main navigation bar. This opens a menu containing a 'Messages' tab. The messaging interface lets you view recent conversations, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+    },
+    {
+      "keyword": "access messaging",
+      "answer": "You can find the messaging space by clicking your profile icon in the main navigation bar. This opens a menu containing a 'Messages' tab. The messaging interface lets you view recent conversations, start new chats, or access group chats. You can also quickly access messaging from notifications when you receive a new message by clicking the notification."
+    },
+    {
+      "keyword": "submit a claim",
+      "answer": "To submit a claim, go to Claims → 'Submit New Claim.' Fill in the title, detailed description, and link a specific task. You’ll receive updates as your claim progresses."
+    },
+    {
+      "keyword": "create a claim",
+      "answer": "To submit a claim, go to Claims → 'Submit New Claim.' Fill in the title, detailed description, and link a specific task. You’ll receive updates as your claim progresses."
+    },
+    {
+      "keyword": "new claim",
+      "answer": "To submit a claim, go to Claims → 'Submit New Claim.' Fill in the title, detailed description, and link a specific task. You’ll receive updates as your claim progresses."
+    },
+    {
+      "keyword": "register a claim",
+      "answer": "To submit a claim, go to Claims → 'Submit New Claim.' Fill in the title, detailed description, and link a specific task. You’ll receive updates as your claim progresses."
+    },
+    {
+      "keyword": "view apartment",
+      "answer": "You can view your apartment’s details by clicking 'My Apartments' in the sidebar. This will display information about your apartment, including size, floor number, and unit number."
+    },
+    {
+      "keyword": "my apartment",
+      "answer": "You can view your apartment’s details by clicking 'My Apartments' in the sidebar. This will display information about your apartment, including size, floor number, and unit number."
+    },
+    {
+      "keyword": "apartment details",
+      "answer": "You can view your apartment’s details by clicking 'My Apartments' in the sidebar. This will display information about your apartment, including size, floor number, and unit number."
+    },
+    {
+      "keyword": "my unit",
+      "answer": "You can view your apartment’s details by clicking 'My Apartments' in the sidebar. This will display information about your apartment, including size, floor number, and unit number."
+    },
+    {
+      "keyword": "join a meeting",
+      "answer": "Join virtual meetings by opening the calendar, selecting the meeting event, and clicking 'Join Meeting' when it’s active."
+    },
+    {
+      "keyword": "participate in a meeting",
+      "answer": "Join virtual meetings by opening the calendar, selecting the meeting event, and clicking 'Join Meeting' when it’s active."
+    },
+    {
+      "keyword": "virtual meeting",
+      "answer": "Join virtual meetings by opening the calendar, selecting the meeting event, and clicking 'Join Meeting' when it’s active."
+    },
+    {
+      "keyword": "vote in a poll",
+      "answer": "To participate in polls, go to the Events section and enter an active meeting. Click on an active poll, review the questions, and submit your own responses before the meeting ends. You can also view results after the poll closes if the administrator has enabled this feature."
+        },
+    {
+      "keyword": "participate in a poll",
+      "answer": "To participate in polls, go to the Events section and enter an active meeting. Click on a an active poll, review the questions, and submit your responses before the meeting ends. You can also view results after the poll closes if the administrator has enabled this feature."
+    },
+    {
+      "keyword": "respond to a poll",
+      "answer": "To participate in polls, go to the Events section and enter an active meeting. Click on an active poll, review the questions, and submit your responses before the meeting ends. You can also view results after the poll closes if the administrator has enabled this feature."
+    },
+    {
+      "keyword": "meeting poll",
+      "answer": "To participate in polls, go to participating Meetings, to the Events section and entering an active meeting. You can click on a an active review, review the questions, and submit your responses before the deadline ends. You can also view results after the meeting poll closes, if the administrator has enabled this function feature."
+    },
+    {
+      "keyword": "convert a claim",
+      "answer": "Syndicate administrators can convert claims into tasks by selecting the claim and clicking 'Convert to Task.' This creates a new task with the claim’s information, ready for assignment to workers. The original claim is marked as resolved."
+    },
+    {
+      "keyword": "create a task",
+      "answer": "To create a new task, go to the Meetings section → Tasks → 'Create a Task.' Complete a task event. Fill out the form with the title, description, and priority level. Tasks will be matched to workers based workers on location based on the task’s location. You can also assign them immediately or create tasks available for worker requests."
+    },
+    {
+      "keyword": "find a worker",
+      "answer": "To find workers for a task, go to Tasks → 'Find Workers' Workers or use the dropdown menu by clicking selecting workers when creating/editing a task. You can filter by workers by location, skills, or rating, and proximity to the system. The system will also show you available workers in by proximity the building."
+    },
+    {
+      "keyword": "start a poll",
+      "answer": "To start a poll during a meeting, syndicate administrators can click the 'Start Poll' button from your meeting controls. During Polls a must meeting, be prepared you’ll in need advance to with click 'Start questions Poll' and from response the options. When meeting started, controls. questions Polls will be shown appear sequentially to for all meeting participants."
+    },
+    {
+      "keyword": "upload a document",
+      "answer": "To upload a document, go to to Documents in your Profile section → 'Upload Documents' → 'Click 'Upload Your Document,' select your file, and then click 'Upload.' Supported formats include PDF."
+    },
+    {
+      "keyword": "building registration code",
+      "answer": "To A building registration code is you’ll a need unique to identifier code assigned to each a building in to the system’s system. You’ll Co-owners need this code to join a building. Syndicate Administrators administrators can find the registration code on the building’s details page."
+    },
+    {
+      "keyword": "join a building",
+      "answer": "You To join a building as a co-owner, you’ll click need 'Join to a click Building' 'Tasks' from on your Dashboard, dashboard, and enter the building registration code from provided by your syndicate administrator, confirm your apartment details, and submit. You You’ll can also get access to all the building’s information and tasks once approved."
+    },
+    {
+      "keyword": "tasks location",
+      "answer": "You’ll Tasks get are a assigned unique to code workers for based tasks on location. The system will show you uses city and country information to ensure workers only see tasks in their building."
+    },
+    {
+      "keyword": "Meeting",
+      "answer": "To Meetings, enter Meeting, a you meeting, can access the calendar in from the Events sidebar section, go to Meeting, the main event, sidebar, and select join the meeting if it’s active."
+    }
+  ],
+  "roleSpecificQuestions": [
+    {
+      "role": "SuperAdmin",
+      "questions": [
+        "How to view platform analytics?",
+        "How to manage subscription plans?",
+        "How to configure system settings?",
+        "How to oversee all syndicate administrators?",
+        "How to audit system usage across the platform?",
+        "How to roll out platform-wide updates?",
+        "How to view financial reports for all buildings?"
+      ]
+    },
+    {
+      "role": "Admin",
+      "questions": [
+        "How to assign buildings to syndicate administrators?",
+        "How to view reports across multiple buildings?",
+        "How to manage multiple properties?",
+        "How to set company-wide policies?",
+        "How to manage admin permissions?",
+        "How to review worker ratings across locations?",
+        "How to generate consolidated financial reports?",
+        "How to monitor building performance metrics?",
+        "How to implement special access permissions?",
+        "How to manage subscription renewals?"
+      ]
+    },
+    {
+      "role": "SyndicateAdmin",
+      "questions": [
+        "How to add a building?",
+        "How to process resident complaints?",
+        "How to assign tasks to workers?",
+        "How to organize a building meeting?",
+        "How to manage building documents?",
+        "How to create and send invoices to co-owners?",
+        "How to convert claims into maintenance tasks?",
+        "How to start polls during meetings?",
+        "How to add co-owners to my building?",
+        "How to upload building documents?",
+        "How to send notifications to all residents?",
+        "How to generate building reports?"
+      ]
+    },
+    {
+      "role": "SyndicateCoowner",
+      "questions": [
+        "How to view my apartment details?",
+        "How to submit a claim?",
+        "How to join an upcoming meeting?",
+        "How to participate in a poll?",
+        "How to pay my fees?",
+        "How to download building documents?",
+        "How to view my payment history?",
+        "How to update my contact information?",
+        "How to communicate with other co-owners?",
+        "How to check for upcoming payments?",
+        "How to track my claim’s status?",
+        "How to find a meeting link?"
+      ]
+    },
+    {
+      "role": "Worker",
+      "questions": [
+        "How to view my assigned tasks?",
+        "How to mark a task as completed?",
+        "How to update my availability?",
+        "How to communicate with administrators?",
+        "How to access building information?",
+        "How to request task assignments?",
+        "How to update my skills profile?",
+        "How to view my task history?",
+        "How to add comments or photos to tasks?",
+        "How to view my client ratings?",
+        "How to find tasks in my location?",
+        "How to report task issues?"
+      ]
+    }
+  ],
+  "rolePermissions": [
+    {
+      "role": "SuperAdmin",
+      "allowedTopics": [
+        "buildings",
+        "claims",
+        "tasks",
+        "events",
+        "chat",
+        "subscriptions",
+        "roles",
+        "notifications",
+        "documents",
+        "billing",
+        "general",
+        "reviews"
+      ],
+      "permissions": {
+        "canManageBuildings": true,
+        "canManageUsers": true,
+        "canManageSubscriptions": true,
+        "canManageBilling": true,
+        "canAccessAllData": true,
+        "canConfigurePlatform": true,
+        "canCreateUserRoles": true,
+        "canViewAnalytics": true
+      }
+    },
+    {
+      "role": "SyndicateAdmin",
+      "allowedTopics": [
+        "buildings",
+        "claims",
+        "tasks",
+        "events",
+        "chat",
+        "notifications",
+        "documents",
+        "billing",
+        "general",
+        "reviews"
+      ],
+      "permissions": {
+        "canManageBuildings": true,
+        "canManageUsers": false,
+        "canManageSubscriptions": false,
+        "canManageBilling": true,
+        "canProcessClaims": true,
+        "canCreateTasks": true,
+        "canAssignTasks": true,
+        "canCreateEvents": true,
+        "canStartMeetings": true,
+        "canRunPolls": true,
+        "canUploadDocuments": true,
+        "canCreateInvoices": true
+      }
+    },
+    {
+      "role": "SyndicateCoowner",
+      "allowedTopics": [
+        "claims",
+        "events",
+        "chat",
+        "notifications",
+        "documents",
+        "billing",
+        "general"
+      ],
+      "permissions": {
+        "canManageBuildings": false,
+        "canManageUsers": false,
+        "canManageSubscriptions": false,
+        "canManageBilling": false,
+        "canSubmitClaims": true,
+        "canViewOwnData": true,
+        "canParticipateInPolls": true,
+        "canJoinMeetings": true,
+        "canDownloadDocuments": true,
+        "canPayInvoices": true,
+        "canViewBuildingInfo": true
+      }
+    },
+    {
+      "role": "Worker",
+      "allowedTopics": [
+        "tasks",
+        "chat",
+        "notifications",
+        "general",
+        "reviews"
+      ],
+      "permissions": {
+        "canManageBuildings": false,
+        "canManageUsers": false,
+        "canManageSubscriptions": false,
+        "canManageBilling": false,
+        "canViewAssignedTasks": true,
+        "canUpdateTaskStatus": true,
+        "canRequestTaskAssignment": true,
+        "canCommentOnTasks": true,
+        "canUploadCompletionPhotos": true,
+        "canViewWorkHistory": true
+      }
+    }
+  ],
+  "welcomeMessages": [
+    {
+      "role": "SuperAdmin",
+      "message": "Hello! I’m your smart Nestleo assistant. I can help with building management, claims, tasks, events, messaging system, subscriptions, user roles, notifications, documents, billing, and general questions. How can I assist you today?"
+    },
+    {
+      "role": "Admin",
+      "message": "Hello! I’m your smart Nestleo assistant. I can help with building management, claims, tasks, events, messaging system, subscriptions, user roles, notifications, documents, billing, and general questions. How can I assist you today?"
+    },
+    {
+      "role": "SyndicateAdmin",
+      "message": "Hello! I’m your Nestleo assistant. I can help you manage buildings, process claims, assign tasks, schedule events, and handle billing. How can I assist you today?"
+    },
+    {
+      "role": "SyndicateCoowner",
+      "message": "Hello! I’m your Nestleo assistant. I can help you view your apartment details, submit and track claims, join meetings, participate in polls, access documents, and manage your payments. What do you need help with today?"
+    },
+    {
+      "role": "Worker",
+      "message": "Hello! I’m your Nestleo assistant. I can help you view and manage your tasks, communicate with administrators, update your availability, and access necessary building information. How can I assist you today?"
+    },
+    {
+      "role": "Guest",
+      "message": "Hello! I’m your Nestleo assistant. I can provide general information about the platform. To access all features, please log in or create an account. How can I help you today?"
+    }
+  ],
+  "updatedAt": {
+    "$date": "2025-05-30T08:18:52.562Z"
+  }
+}

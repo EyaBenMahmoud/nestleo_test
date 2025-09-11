@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./BackEnd
+    container_name: nestly-backend
+    restart: unless-stopped
+    ports:
+      - "8005:8005"
+    env_file:
+      - ./BackEnd/.env.production
+    volumes:
+      - ./BackEnd/uploads:/app/uploads
+      - ./BackEnd/public:/app/public
+    networks:
+      - nestly-network
+  frontend:
+    build:
+      context: ./FrontEnd
+    container_name: nestly-frontend
+    restart: unless-stopped
+    ports:
+      - "8666:80"
+    env_file:
+      - ./FrontEnd/.env.production
+    depends_on:
+      - backend
+    networks:
+      - nestly-network
+networks:
+  nestly-network:
+    driver: bridge

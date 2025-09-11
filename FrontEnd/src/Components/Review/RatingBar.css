@@ -1,0 +1,52 @@
+.rating-progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease-in-out;
+}
+
+.rating-progress-bar.animating {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.rating-progress {
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-grow: 1;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.rating-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.rating-label {
+  width: 30px;
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.rating-count {
+  font-size: 0.85rem;
+  width: 80px;
+  text-align: left;
+}
+
+.rating-filter-btn {
+  margin-right: 5px;
+  transition: transform 0.2s ease;
+}
+
+.rating-filter-btn:active {
+  transform: scale(0.95);
+}

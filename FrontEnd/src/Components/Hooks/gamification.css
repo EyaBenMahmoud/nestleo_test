@@ -1,0 +1,610 @@
+/* Gamification Profile Styles */
+.gamification-profile {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Badge styles */
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 15px;
+}
+
+.badge-item {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.badge-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  color: white;
+  font-size: 22px;
+}
+
+.badge-icon.payment {
+  background-color: #28a745;
+}
+
+.badge-icon.meeting {
+  background-color: #007bff;
+}
+
+.badge-icon.voting {
+  background-color: #6f42c1;
+}
+
+.badge-icon.general {
+  background-color: #fd7e14;
+}
+
+.badge-name {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-date {
+  font-size: 11px;
+  color: #6c757d;
+}
+
+/* Leaderboard styles */
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.leaderboard-item.current-user {
+  background-color: rgba(0, 123, 255, 0.1);
+  border-left: 4px solid #007bff;
+}
+
+.leaderboard-rank {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #6c757d;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 15px;
+}
+
+.leaderboard-item:nth-child(1) .leaderboard-rank {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.leaderboard-item:nth-child(2) .leaderboard-rank {
+  background-color: #adb5bd;
+}
+
+.leaderboard-item:nth-child(3) .leaderboard-rank {
+  background-color: #cd7f32;
+}
+
+.leaderboard-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  overflow: hidden;
+}
+
+.leaderboard-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.leaderboard-avatar span {
+  font-weight: 600;
+  color: #495057;
+  font-size: 18px;
+}
+
+.leaderboard-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.leaderboard-points {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* Top performer styles */
+.top-performerr {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.top-performer-avatarr {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.top-performer-avatarr img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top-performer-avatarr span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.top-performerr .name {
+  font-weight: 600;
+}
+
+.top-performerr .points {
+  font-size: 13px;
+  color: #6c757d;
+}
+
+/* Activity styles */
+.activity-reason {
+  font-weight: 500;
+}
+
+.activity-description {
+  font-size: 13px;
+}
+
+.points-badge {
+  font-size: 13px;
+  padding: 5px 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .badges-grid {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  }
+
+  .leaderboard-item {
+    padding: 8px 10px;
+  }
+
+  .leaderboard-rank {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  .leaderboard-avatar {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .leaderboard-name {
+    font-size: 14px;
+  }
+}
+
+/* Add these to your gamification.css */
+
+.gamification-panel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.points-display {
+  background: #4361ee;
+  color: white;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.ranking-badge {
+  background: #ffc107;
+  color: #212121;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #f8f9fa;
+}
+
+.leaderboard-item.current-user {
+  background: rgba(67, 97, 238, 0.1);
+  border: 1px solid rgba(67, 97, 238, 0.3);
+}
+
+.leaderboard-rank {
+  width: 30px;
+  height: 30px;
+  background: #4361ee;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.leaderboard-name {
+  flex: 1;
+}
+
+.leaderboard-points {
+  font-weight: 600;
+  color: #4361ee;
+}
+
+
+
+
+
+
+/* Gamification details container */
+.gamification-details-container {
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+}
+
+.gamification-details-container.hide {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.gamification-details-container.show {
+  max-height: 3000px;
+  opacity: 1;
+  margin-top: 1.5rem;
+}
+
+/* Gamification controls styling */
+.gamification-controls {
+  background-color: #f8f9fa;
+}
+
+/* Journey visualization */
+.gamification-journey {
+  position: relative;
+  padding: 20px 0;
+  margin-bottom: 2rem;
+}
+
+.journey-path {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 0 auto;
+}
+
+.journey-path:before {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: 40px;
+  right: 40px;
+  height: 4px;
+  background: linear-gradient(90deg, #3a57e8, #00c3ff, #47c742, #ff6b6b);
+  z-index: 0;
+}
+
+.milestone {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.milestone-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  border: 2px solid;
+  box-shadow: 0 0 0 4px #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.milestone-icon i {
+  font-size: 24px;
+}
+
+.milestone-label {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.milestone:nth-child(1) .milestone-icon {
+  border-color: #3a57e8;
+}
+
+.milestone:nth-child(2) .milestone-icon {
+  border-color: #00c3ff;
+}
+
+.milestone:nth-child(3) .milestone-icon {
+  border-color: #47c742;
+}
+
+.milestone:nth-child(4) .milestone-icon {
+  border-color: #ff6b6b;
+}
+
+.milestone:nth-child(1) .milestone-icon i {
+  color: #3a57e8;
+}
+
+.milestone:nth-child(2) .milestone-icon i {
+  color: #00c3ff;
+}
+
+.milestone:nth-child(3) .milestone-icon i {
+  color: #47c742;
+}
+
+.milestone:nth-child(4) .milestone-icon i {
+  color: #ff6b6b;
+}
+
+/* Accordion styling */
+:global(.accordion-button) {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 1rem 0;
+}
+
+:global(.accordion-button:not(.collapsed)) {
+  color: #3a57e8;
+  background-color: transparent;
+}
+
+:global(.accordion-body) {
+  padding: 1rem 0.25rem;
+}
+
+/* Badge styling */
+.badge-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-icon i {
+  font-size: 18px;
+  color: white;
+}
+
+.badge-icon.payment {
+  background-color: #ffc107;
+}
+
+.badge-icon.meeting {
+  background-color: #00c3ff;
+}
+
+.badge-icon.voting {
+  background-color: #47c742;
+}
+
+.badge-icon.general {
+  background-color: #6c757d;
+}
+
+.badge-list li {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.badge-list li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Reward card styling */
+.reward-card {
+  border-radius: 8px;
+  border: 1px solid #e9e9ef;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  height: 100%;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.reward-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.reward-ribbon {
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  background: #3a57e8;
+  color: white;
+  padding: 5px 30px;
+  font-size: 12px;
+  transform: rotate(45deg);
+  font-weight: bold;
+}
+
+.reward-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.reward-icon i {
+  font-size: 30px;
+}
+
+.reward-title {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.reward-description {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.reward-card.premium {
+  border: 1px solid #ffc107;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
+}
+
+.reward-card.premium .reward-ribbon {
+  background: #ffc107;
+  color: #212529;
+}
+
+/* How it works / process steps */
+.process-steps {
+  position: relative;
+  padding-left: 30px;
+}
+
+.process-steps:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  background-color: #e9e9ef;
+}
+
+.process-step {
+  position: relative;
+  padding-bottom: 25px;
+}
+
+.process-step:last-child {
+  padding-bottom: 0;
+}
+
+.step-number {
+  position: absolute;
+  left: -30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #3a57e8;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.step-content {
+  padding-left: 15px;
+}
+
+.step-content h6 {
+  margin-bottom: 5px;
+}
+
+.step-content p {
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+/* View details button effects */
+:global(.view-details-btn) {
+  transition: all 0.2s ease;
+}
+
+:global(.view-details-btn:hover) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+:global(table.table-sm td) {
+  padding: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .journey-path:before {
+    left: 20px;
+    right: 20px;
+  }
+
+  .milestone-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .milestone-icon i {
+    font-size: 18px;
+  }
+
+  .milestone-label {
+    font-size: 12px;
+  }
+}

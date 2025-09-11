@@ -1,0 +1,54 @@
+
+upload documents missing upload for .txt only preview for pdf files also ??
+
+invoice bugs not tied to a specefic user .
+
+
+apartment when i add dont add in building .
+
+
+delete message temshy ama 5ayba.
+
+
+reply / copy matemshish.
+
+
+css when deleteing a message i cant click the delete button when there is a lot of messages and not only one message 
+ bug also when deleting a message in top of an image the css is covered by the image 
+
+
+search messages ..
+
+
+
+add / remove participants for Superadmin groups 
+
+
+
+i can only remove a conversation of group by the one i created of 
+
+
+and also when i remove a conversation it deletes from both sides whish it should be deleted only from one side 
+
+
+
+delete message is not instant and also when i send a message and i want to delete it directly i need to refresh the conversation to be able to delete it and when i delete a message succeffuly its not instant and it don"t get deleted from the receiver part 
+
+
+
+image bug api requests
+
+
+when i start a new conversation a user becomes unamed 
+
+
+googleusers sign in with normal login interface when they have their role as user it end up to an empty template
+
+when a user start a new conversation for firt time and send a message to another user and he is on the chat intefrace the message dont show unless we refresh the page .
+
+Notification tables ;
+
+syndic : ---> (comment coowner task plus ) , (coowner claim submit ) , (messages ) 
+
+
+coowner :(event creation and start ) , (apartment assigment ) , (invoices creation and pays ) , (task completed ) , ( new building assignment  ) , ( group add particpant ) , ( group remove participant ) 
