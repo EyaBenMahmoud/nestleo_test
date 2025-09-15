@@ -596,7 +596,46 @@ const emailTemplates = {
       warningMessage: 'Una vez que finalices la transferencia, ya no tendrás acceso a este edificio.',
       thankYou: '¡Gracias por usar Nestleo!'
     }
-  }
+  },
+  twoFa: {
+    en: {
+      subject: 'Your Nestleo sign-in verification code',
+      welcome: 'Nestleo Security',
+      instruction: 'Use the code below to complete signing in to your Nestleo account. This code is for one-time use only.',
+      codeLabel: 'Your verification code',
+      noAction: 'If you did not attempt to sign in, please ignore this email or contact support.',
+      expiry: 'This code will expire in 10 minutes.',
+      footer: 'If you need help, contact support at support@nestleo.example'
+    },
+    fr: {
+      subject: 'Code de vérification Nestleo',
+      welcome: 'Sécurité Nestleo',
+      instruction: 'Utilisez le code ci-dessous pour finaliser la connexion à votre compte Nestleo. Ce code est à usage unique.',
+      codeLabel: 'Votre code de vérification',
+      noAction: 'Si vous n\'avez pas tenté de vous connecter, veuillez ignorer cet e-mail ou contacter le support.',
+      expiry: 'Ce code expirera dans 10 minutes.',
+      footer: 'Si vous avez besoin d\'aide, contactez le support à support@nestleo.example'
+    },
+    it: {
+      subject: 'Codice di verifica Nestleo',
+      welcome: 'Sicurezza Nestleo',
+      instruction: 'Usa il codice qui sotto per completare l\'accesso al tuo account Nestleo. Questo codice è usa e getta.',
+      codeLabel: 'Il tuo codice di verifica',
+      noAction: 'Se non hai tentato di accedere, ignora questa email o contatta il supporto.',
+      expiry: 'Questo codice scadrà in 10 minuti.',
+      footer: 'Per assistenza, contatta il supporto a support@nestleo.example'
+    },
+    sp: {
+      subject: 'Código de verificación Nestleo',
+      welcome: 'Seguridad Nestleo',
+      instruction: 'Usa el código a continuación para completar el inicio de sesión en tu cuenta Nestleo. Este código es de un solo uso.',
+      codeLabel: 'Tu código de verificación',
+      noAction: 'Si no intentaste iniciar sesión, ignora este correo o contacta con el soporte.',
+      expiry: 'Este código expirará en 10 minutos.',
+      footer: 'Si necesitas ayuda, contacta con soporte en support@nestleo.example'
+    }
+
+}
 };
 
 const transporter = nodemailer.createTransport({
@@ -608,6 +647,57 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD
   }
 });
+
+const sendTwoFaVerificationEmail = async (email, code, language = 'en') => {
+  try {
+    const template = (emailTemplates.twoFa && emailTemplates.twoFa[language]) || emailTemplates.twoFa.en;
+
+    // Build the main content: friendly instruction + big code box
+    const mainContent = `
+      <p style="font-size:16px; color:#333; margin-bottom: 18px;">
+        ${template.instruction}
+      </p>
+
+      <div style="text-align:center; margin: 18px 0;">
+        <div style="display:inline-block; padding: 18px 26px; border-radius: 10px; background:#f1fbf9; font-weight:700; font-size:28px; letter-spacing:6px; color:#0a6b59; border: 1px solid rgba(10,179,156,0.12);">
+          ${code}
+        </div>
+      </div>
+
+      <p style="font-size:15px; color:#666; margin-top: 8px;">
+        ${template.noAction}
+      </p>
+
+      <p style="font-size:13px; color:#888; margin-top: 10px;">
+        ${template.expiry}
+      </p>
+
+      <p style="font-size:12px; color:#999; margin-top: 18px;">
+        ${template.footer}
+      </p>
+    `;
+
+    const html = createStandardEmailTemplate({
+      headerTitle: template.welcome,
+      mainContent,
+      footerText: '' // createStandardEmailTemplate will still render default footer
+    });
+
+    const mailOptions = {
+      from: `"Nestleo" <${process.env.EMAIL_USERNAME}>`,
+      to: email,
+      subject: template.subject,
+      html
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`2FA email sent to ${email}`);
+    return true;
+  } catch (error) {
+    console.error('[sendTwoFaVerificationEmail] error sending 2FA email:', error);
+    throw error;
+  }
+};
 
 
 const sendVerificationEmail = async (email, verifyUrl, language = 'en') => {
@@ -2272,5 +2362,6 @@ module.exports = {
   sendTransferConfirmationNotificationEmail,
   sendAccountTransferEmail,
   sendBuildingTransferConfirmationEmail,
-  sendBuildingTransferNotificationEmail
+  sendBuildingTransferNotificationEmail,
+  sendTwoFaVerificationEmail
 };

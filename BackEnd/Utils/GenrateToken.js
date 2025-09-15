@@ -32,6 +32,11 @@ const GenerateToken = async (userId) => {
   );
 };
 
+const generateTempPolicyToken = (userId, expiresInSeconds = 600) => {
+  const payload = { id: userId.toString(), temp: true, purpose: 'policy' };
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: expiresInSeconds });
+};
+
 // Update the directLogin function too
 const directLogin = async (req, res) => {
   const { token } = req.body;
@@ -98,4 +103,4 @@ const directLogin = async (req, res) => {
   }
 };
 
-module.exports = { GenerateToken, directLogin };
+module.exports = { GenerateToken, directLogin, generateTempPolicyToken };

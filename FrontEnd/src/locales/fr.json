@@ -310,6 +310,24 @@
     "modalAddSubmit": "Soumettre la réclamation",
     "modalAddCancel": "Annuler"
   },
+ "policy": {
+    "welcomeTitle": "Bienvenue sur Nestleo",
+    "intro": "Restez connecté avec votre communauté, où que vous soyez. Avec notre plateforme, vous êtes toujours en contact avec vos voisins : informé, impliqué et uni.",
+    "joinBuilding": "Rejoindre l’espace numérique de votre immeuble",
+    "smartVoting": "Participer aux décisions grâce au vote intelligent",
+    "reportIssues": "Signaler et suivre les problèmes en temps réel",
+    "videoMeetings": "Communiquer et vous réunir via la visioconférence intégrée",
+    "managePayments": "Simplifier les paiements et suivre les finances de l’immeuble",
+    "interactProfessionals": "Interagir avec des professionnels grâce à la maintenance intelligente",
+    "readAndAccept": "J’ai lu et j’accepte les Conditions Générales d’Utilisation de Nestleo.",
+    "privacyNotice": "Nestleo collecte et traite les données comme décrit dans la Politique de Confidentialité. (obligatoire)",
+    "marketingOptIn": "Je souhaite recevoir des communications de la part de Nestleo concernant ses produits et services.",
+    "acceptAndContinue": "Accepter et continuer",
+    "accepting": "Enregistrement...",
+    "acceptFailed": "Échec de l'acceptation des politiques. Veuillez réessayer.",
+    "returnToLogin": "Retour à la connexion"
+  },
+
   "calendar": {
     "errorEventSubmission": "Error submitting event",
 
@@ -2355,6 +2373,7 @@
         "confirmationFailed": "Échec de la Confirmation",
         "goToLogin": "Aller à la Connexion",
         "autoRedirect": "Vous serez redirigé automatiquement dans 5 secondes...",
+        
         "errors": {
           "invalidToken": "Lien de confirmation invalide ou expiré",
           "tokenExpired": "Le lien de confirmation a expiré. Veuillez demander un nouveau transfert.",
@@ -2366,7 +2385,28 @@
       },
       "confirmedAndSend": "Confirmer et Envoyer"
     },
-    "confirmedAndSend": "Confirmer et Envoyer"
+     "accountSecurity": "Sécurité du compte",
+    "confirmedAndSend": "Confirmer et Envoyer",
+      "twoFa": {
+    "useEmail": "Vérification en deux étapes (e-mail)",
+    "emailWillBe": "Un code de vérification sera envoyé à",
+    "enabledBadge": "Activé",
+    "disabledBadge": "Désactivé",
+    "enable": "Activer la 2FA",
+    "disable": "Désactiver la 2FA",
+    "codeSent": "Code de vérification envoyé à votre e-mail.",
+    "sendFailed": "Échec de l'envoi du code. Réessayez.",
+    "enterCode": "Entrez le code de vérification",
+    "codeExpires": "Le code expire dans 10 minutes.",
+    "enabled": "Authentification à deux facteurs activée",
+    "verifyFailed": "Code de vérification invalide.",
+    "disabled": "Authentification à deux facteurs désactivée",
+    "disableConfirm": "Voulez-vous vraiment désactiver la vérification en deux étapes ?",
+    "resent": "Code de vérification renvoyé.",
+    "resend": "Renvoyer"
+  },
+  "verify": "Vérifier",
+  "verifying": "Vérification..."
   },
   "home": {
     "hero": {
@@ -3115,6 +3155,11 @@
     "rewardsMessage": "Notre programme de récompenses est en cours de développement. Restez à l’écoute pour des surprises !"
   },
   "auth": {
+     "agreeTerms":"En créant un compte, vous acceptez",
+    "service":"les Conditions d'utilisation",
+    "and":"et",
+    "PrivacyPolicy":"les Politiques de Confidentialité",
+    
     "countryRequired": "Le pays est requis.",
     "cityRequired": "La ville est requise.",
     "firstNameRequired": "Le prénom est requis.",
@@ -3190,6 +3235,29 @@
     "rememberYourPassword": "Vous vous souvenez de votre mot de passe ?",
     "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
     "rememberMe": "Se souvenir de moi",
+
+    "enter2FaCode": "Entrez le code de vérification",
+    "codeSentToEmail": "Un code de vérification a été envoyé à votre adresse e-mail.",
+    "missingTempToken": "Jeton temporaire manquant. Veuillez vous reconnecter.",
+    "codeInvalid": "Veuillez entrer le code à 6 chiffres.",
+    "verifyFailed": "La vérification a échoué. Veuillez réessayer.",
+    "twoFa": {
+      "codeResent": "Le code de vérification a été renvoyé.",
+      "codeExpires": "Le code expire dans :"
+    },
+    "resendFailed": "Échec de l'envoi du code. Veuillez réessayer.",
+    "sending": "Envoi...",
+    "resendCode": "Renvoyer le code",
+    "cancel": "Annuler",
+    "verifying": "Vérification...",
+    "verify": "Vérifier",
+    "pleaseCompleteRecaptcha": "Veuillez compléter le reCAPTCHA.",
+    "recaptchaFailed": "La vérification reCAPTCHA a échoué. Veuillez réessayer.",
+  
+  "emailNotice": {
+    "returnToLogin": "Retour à la connexion"
+  },
+
     "footer": {
       "copyright": "© Nestleo.",
       "tagline": "Gestion collaborative pour une meilleure communauté — Nestleo 2025 ®"
@@ -4995,6 +5063,7 @@
       "upgradeSubscription": "Mettre à niveau votre abonnement",
       "toAccessFeature": "pour accéder à cette fonctionnalité."
     }
+    
   },
   "common": {
     

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,7 @@ import { clearError, registerUser } from '../../../src/slices/login/loginSlice';
 import AuthSlider from '../../pages/AuthenticationInner/authCarousel';
 import VerificationBuilding from './verificationBuilding';
 import logoLight from '../../assets/images/logo-light.png';
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Import i18next for language detection
 import i18n from '../../i18n';
@@ -14,6 +15,10 @@ import i18n from '../../i18n';
 import "../../assets/scss/pages/_nestleoAuth.scss";
 
 const RegisterCoowner = () => {
+  const recaptchaRef = useRef(null);
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+
   const { t } = useTranslation();
   const [step, setStep] = useState('verify'); // 'verify' or 'register'
   const [formData, setFormData] = useState({
@@ -133,9 +138,13 @@ const RegisterCoowner = () => {
       const submissionData = {
         ...formData,
         language: currentLanguage,
-        isActive: false // Force false for co-owner registration
+        isActive: false, // Force false for co-owner registration
+        recaptcha: recaptchaToken 
       };
       const result = await dispatch(registerUser(submissionData));
+       try { recaptchaRef.current?.reset(); } catch (e) { /* ignore */ }
+         setRecaptchaToken(null);
+
       const backendMsg = result.payload?.message || result.payload;
       if (result.error && result.error.message === "Rejected") {
         if (backendMsg === "Invalid email or password") {
@@ -309,11 +318,24 @@ const RegisterCoowner = () => {
                       <div className="nestly-field-error text-danger">{fieldErrors.password}</div>
                     )}
                   </div>
-
+            <div className="nestly-form-group" style={{ margin: '1rem 0', textAlign: 'center' }}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={SITE_KEY}
+                onChange={token => setRecaptchaToken(token)}
+                onExpired={() => setRecaptchaToken(null)}
+                theme="light"
+              />
+              {localError && localError === (t('auth.pleaseCompleteRecaptcha') || 'Please complete the reCAPTCHA.') && (
+                <div className="nestly-field-error text-danger" style={{ marginTop: 6 }}>
+                  {localError}
+                </div>
+              )}
+            </div>
                   <button
                     type="submit"
                     className="nestly-btn nestly-btn-primary nestly-btn-block"
-                    disabled={loading}
+                    disabled={loading|| !recaptchaToken}
                   >
                     {loading ? (
                       <>
@@ -340,7 +362,16 @@ const RegisterCoowner = () => {
                       {t('auth.backToHome')}
                     </Link>
                   </div>
+   <div className="nestly-form-group" style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.8rem' }}>
+                                <p>
+                                 {t('auth.agreeTerms')} <Link to="/TermsAndConditions"> {t('auth.service')} </Link> {t('auth.and')} <Link to="/privacy-policy"> {t('auth.PrivacyPolicy')} </Link>.
+                                </p>
+                                   <Link to="/landing" className="nestly-auth-link">
+                                        <i className="ri-arrow-left-line" style={{ fontSize: '14px', marginRight: '4px' }}></i>
+                                        {t('auth.backToHome')}
+                                    </Link>
 
+                               </div>
                 </form>
 
               </div>

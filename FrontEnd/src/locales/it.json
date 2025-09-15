@@ -205,6 +205,23 @@
   "Terms Condition": "Termini e condizioni",
   "pages": "pagine",
   "React Datatables": "Reagire Datatables",
+   "policy": {
+    "welcomeTitle": "Benvenuto su Nestleo",
+    "intro": "Rimani connesso con la tua comunità ovunque tu sia. Con la nostra piattaforma sei sempre in contatto con i tuoi vicini: informato, coinvolto e unito.",
+    "joinBuilding": "Entra nello spazio digitale del tuo edificio",
+    "smartVoting": "Partecipare alle decisioni con voto intelligente",
+    "reportIssues": "Segnalare e monitorare i problemi in tempo reale",
+    "videoMeetings": "Comunicare e incontrarsi tramite videoconferenze integrate",
+    "managePayments": "Semplificare i pagamenti e monitorare le finanze dell'edificio",
+    "interactProfessionals": "Interagire con professionisti tramite manutenzione intelligente",
+    "readAndAccept": "Ho letto e accetto i Termini di Servizio di Nestleo.",
+    "privacyNotice": "Nestleo raccoglie e tratta i dati come descritto nella Informativa sulla Privacy. (obbligatorio)",
+    "marketingOptIn": "Desidero ricevere comunicazioni da Nestleo sui suoi prodotti e servizi.",
+    "acceptAndContinue": "Accetta e continua",
+    "accepting": "Accettando...",
+    "acceptFailed": "Impossibile accettare le politiche. Riprovare.",
+    "returnToLogin": "Torna al login"
+  },
   "claims": {
     "title": "Gestione dei Reclami",
     "pageTitle": "Reclami",
@@ -2877,6 +2894,35 @@
     "close": "Chiudi"
   },
   "auth": {
+
+  
+  "enter2FaCode": "Inserisci il codice di verifica",
+  "codeSentToEmail": "Un codice di verifica è stato inviato al tuo indirizzo e-mail.",
+  "missingTempToken": "Token temporaneo mancante. Effettua nuovamente l'accesso.",
+  "codeInvalid": "Inserisci il codice a 6 cifre.",
+  "verifyFailed": "Verifica non riuscita. Riprova.",
+  "twoFa": {
+    "codeResent": "Il codice di verifica è stato reinviato.",
+    "codeExpires": "Il codice scade tra:"
+  },
+  "resendFailed": "Invio del codice fallito. Riprova.",
+  "sending": "Invio...",
+  "resendCode": "Reinvia codice",
+  "cancel": "Annulla",
+  "verifying": "Verifica in corso...",
+  "verify": "Verifica",
+  "pleaseCompleteRecaptcha": "Completa il reCAPTCHA.",
+  "recaptchaFailed": "Verifica reCAPTCHA fallita. Riprova.",
+  "emailNotice": {
+    "returnToLogin": "Torna al login"
+  },
+
+
+      "agreeTerms": "Creando un account, accetti",
+    "service": "i Termini di servizio",
+    "and": "e",
+    "PrivacyPolicy": "l'Informativa sulla privacy",
+    
     "countryRequired": "Il paese è obbligatorio.",
     "cityRequired": "La città è obbligatoria.",
     "firstNameRequired": "Il nome è obbligatorio.",

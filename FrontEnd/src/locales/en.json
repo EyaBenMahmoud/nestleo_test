@@ -790,6 +790,35 @@
     "close": "Close"
   },
   "auth": {
+
+
+  "enter2FaCode": "Enter the verification code",
+  "codeSentToEmail": "A verification code has been sent to your email address.",
+  "missingTempToken": "Missing temporary token. Please log in again.",
+  "codeInvalid": "Please enter the 6-digit code.",
+  "verifyFailed": "Verification failed. Please try again.",
+  "twoFa": {
+    "codeResent": "The verification code has been resent.",
+    "codeExpires": "The code expires in:"
+  },
+  "resendFailed": "Failed to send the code. Please try again.",
+  "sending": "Sending...",
+  "resendCode": "Resend code",
+  "cancel": "Cancel",
+  "verifying": "Verifying...",
+  "verify": "Verify",
+  "pleaseCompleteRecaptcha": "Please complete the reCAPTCHA.",
+  "recaptchaFailed": "reCAPTCHA verification failed. Please try again.",
+  "emailNotice": {
+    "returnToLogin": "Return to login"
+  },
+
+
+
+        "agreeTerms": "By creating an account, you agree to",
+    "service": "the Terms of Service",
+    "and": "and",
+    "PrivacyPolicy": "the Privacy Policy",
     "logout": "Log Out",
     "countryRequired": "Country is required.",
     "cityRequired": "City is required.",
@@ -5885,5 +5914,22 @@
     "profile": "My Profile",
     "settings": "Settings",
     "help": "Help Center"
+  },
+    "policy": {
+    "welcomeTitle": "Welcome to Nestleo",
+    "intro": "Stay connected with your community wherever you are. With our platform you are always in touch with your neighbors — informed, involved and united.",
+    "joinBuilding": "Join your building's digital space",
+    "smartVoting": "Participate in decisions with smart voting",
+    "reportIssues": "Report and track issues in real time",
+    "videoMeetings": "Communicate and meet via built-in video conferencing",
+    "managePayments": "Simplify payments and track building finances",
+    "interactProfessionals": "Interact with professionals through smart maintenance",
+    "readAndAccept": "I have read and accept Nestleo's Terms of Service.",
+    "privacyNotice": "Nestleo collects and processes data as described in the Privacy Policy. (required)",
+    "marketingOptIn": "I want to receive communications from Nestleo about products and services.",
+    "acceptAndContinue": "Accept and continue",
+    "accepting": "Accepting...",
+    "acceptFailed": "Failed to accept policies. Please try again.",
+    "returnToLogin": "Return to login"
   }
 }

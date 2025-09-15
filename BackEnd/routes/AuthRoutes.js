@@ -1,5 +1,11 @@
 const express = require('express');
-const { registerUser, loginUser,loginUserGoogle, verifyEmail, resendVerificationEmail  } = require('../Controllers/AuthController');
+const {
+  registerUser,
+  loginUser,
+  loginUserGoogle,
+  verifyEmail,
+  resendVerificationEmail
+} = require('../Controllers/AuthController'); 
 const { protect } = require('../Middlewares/AuthMiddleware');
 const { forgotPassword, resetPassword } = require('../Controllers/passwordReset');
 const passport = require('passport');
@@ -7,14 +13,21 @@ const { GenerateToken , directLogin} = require('../Utils/GenrateToken');
 const User = require('../Models/User');
 const router = express.Router();
 
+const twoFactorController = require('../Controllers/twoFactorController');
+const authController = require('../Controllers/AuthController');
 
-
-
-
+router.post('/2fa/enable-direct', protect, twoFactorController.enableTwoFaDirect);
+// If you use JWT-based protect middleware, use it (expects Authorization: Bearer <token>)
+// 2FA for login flows (tempToken flows)
+router.post('/send-2fa-code', authController.resendLoginTwoFa);
+router.post('/login/2fa/verify', authController.loginVerifyTwoFa);
+router.post('/2fa/disable', protect, twoFactorController.disableTwoFa);
+router.post('/2fa/enable-direct', protect, twoFactorController.enableTwoFaDirect);
 
 router.post('/resend-verification', resendVerificationEmail);
 //verify email
 router.get('/verify-email', verifyEmail);
+router.post('/accept-policies', authController.acceptPolicies);
 
 //login with google 
 router.post('/loginWithGoogle', loginUserGoogle);
@@ -73,7 +86,6 @@ router.get("/login/failed",(req,res)=>{
 })
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
 router.get('/google/callback', passport.authenticate('google', { session: false ,  failureRedirect: '/auth/login/failed'}), 
   (req, res, next) => {
     const user = req.user;

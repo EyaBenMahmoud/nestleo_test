@@ -136,6 +136,7 @@ import SubscriptionExpiredPage from "../Components/Auth/SubcriptionExpireCompoen
 
 
 
+
 // the SubscriptionGuard component to show an overlay instead of blocking access
 const SubscriptionGuard = ({ children }) => {
   const { user } = useSelector((state) => state.Loginn || {});
@@ -350,6 +351,7 @@ const authProtectedRoutes = [
     component: <Navigate to="/dashboard" />,
   },
 ];
+import TwoFaVerify from "../Components/Auth/TwoFaVerify";
 import SuperAdminLogin from "./SuperAdminLogin";
 import RoleSelection from "../pages/Landing/OnePage/roleSelection";
 import VerifyEmail from "../Components/Auth/verifyEmailRedirect";
@@ -358,9 +360,13 @@ import GamificationTab from "../Components/GamificationTab";
 import CoownerSubscriptionExpired from "../Components/Subscriptions/coownerSubcripiotnExpired";
 import CoownerSubscriptionGuard from "../Components/Subscriptions/coownerSubcriptionGuard";
 import StandalonePollPage from "../Components/Events/pollPage";
+import AcceptPolicies from "../Components/Auth/AcceptPolicies";
 const publicRoutes = [
+  // add to publicRoutes (so unauthenticated users can access with temp token)
+  { path: "/auth-2fa", component: <TwoFaVerify /> },
   { path: "/coowner-subscription-expired", component: <CoownerSubscriptionExpired /> },
   { path: "/free-pack-info", component: <FreePackInfo /> },
+  {path: "/accept-policies", component: <AcceptPolicies />},
 
   { path: "/essai-expire", component: <SubscriptionExpiredPage /> },
 

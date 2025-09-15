@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema({
   country: { type: String, required: false },
   zipCode: { type: String, required: false },
   description: { type: String, required: false },
+  twoStepsVerify: { type: Boolean, default: false },
+twoFAMethod: { type: String, enum: ['email', 'app'], default: 'email' },
   language: { 
     type: String, 
     enum: ["en", "fr", "it", "sp"], 
@@ -51,6 +53,13 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
   },
+  // dans UserSchema
+acceptedTerms: { type: Boolean, default: false },     // a accepté CGU
+acceptedPrivacy: { type: Boolean, default: false },   // a accepté la Politique de confidentialité (obligatoire)
+marketingOptIn: { type: Boolean, default: false },    // optionnel (communications marketing)
+
+  twoFATempCodeHash: { type: String },         // bcrypt hash of the emailed code
+  twoFATempCodeExpire: { type: Date },    
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   googleId: String,

@@ -45,15 +45,24 @@ const assistantConfigRoutes = require('./routes/assistantConfigRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const uploadRoutes = require('./routes/uploadRoutes.js');
 
-
+const session = require('express-session');
+const MongoStore = require('connect-mongo'); 
 const app = express(); 
 
-
+// Allow CORS preflight explicitly and allow our custom headers
 app.all('*', (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+  // If you want to allow many dev origins, you can overwrite Origin per request instead of "*"
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, x-recaptcha-token, x-temp-token");
+  // Optional: allow credentials if you're using cookies/sessions
+  // res.header("Access-Control-Allow-Credentials", "true");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
   next();
 });
+
 
 
 connectDB();
@@ -79,7 +88,7 @@ const allowedOrigins = isProduction
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (e.g. mobile apps, curl, Postman)
+    // Allow requests with no origin (Postman / native apps)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -87,7 +96,7 @@ app.use(cors({
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-recaptcha-token', 'x-temp-token', 'X-Requested-With'],
   credentials: true
 }));
 
@@ -125,10 +134,22 @@ app.use('/users', usersRouter);
 app.use('/', indexRouter); 
 //hello
 
-app.use(passport.initialize())
-app.use(passport.session())
+  app.use(session({
+    secret: process.env.SESSION_SECRET || 'changeme',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(), // uses the connected client
+      collectionName: 'sessions'
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24,
+      secure: process.env.NODE_ENV === 'production'
+    }
+  }));
 
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Add these middleware before your routes
 app.use(express.json()); // for parsing application/json

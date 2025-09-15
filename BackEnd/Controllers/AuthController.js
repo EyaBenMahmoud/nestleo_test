@@ -1,8 +1,10 @@
 const User = require('../Models/User');
-const { GenerateToken } = require('../Utils/GenrateToken');
+const { GenerateToken, generateTempPolicyToken } = require('../Utils/GenrateToken');
 const Building = require('../Models/Building');
 const crypto = require('crypto');
-const { sendVerificationEmail } = require('../Utils/Email');
+const { sendTwoFaVerificationEmail,sendVerificationEmail } = require('../Utils/Email');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const resendVerificationEmail = async (req, res) => {
   const { email } = req.body;
@@ -225,6 +227,35 @@ const registerUser = async (req, res) => {
 };
 
 
+
+// Helper: generate short-lived temp JWT for 2FA flows
+const generateTemp2FaToken = (userId, expiresInSeconds = 600) => {
+  // payload marks this token as temporary and for 2fa purpose
+  const payload = { id: userId.toString(), temp: true, purpose: '2fa' };
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: expiresInSeconds });
+};
+
+
+
+// ------------------ Updated generateAndSend2FaCode ------------------
+// Replaces the previous implementation that used sendVerificationEmail for 2FA
+const generateAndSend2FaCode = async (user) => {
+  // generate numeric 6-digit code
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // store hashed code and expiry (10 minutes)
+  const hash = await bcrypt.hash(code, 10);
+  user.twoFATempCodeHash = hash;
+  user.twoFATempCodeExpire = Date.now() + 1000 * 60 * 10; // 10 minutes in ms
+  user.twoFAMethod = user.twoFAMethod || 'email';
+  await user.save();
+
+  // send the numeric code using the dedicated 2FA email template
+  await sendTwoFaVerificationEmail(user.email, code, user.language || 'en');
+
+  return true;
+};
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -266,7 +297,36 @@ const loginUser = async (req, res) => {
 
     if (user && (await user.matchPassword(password))) {
 
+if (user.twoStepsVerify) {
+      // create temp JWT (short lived, e.g., 10 minutes)
+      const tempToken = generateTemp2FaToken(user._id, 60 * 10); // 600 seconds
 
+      // generate/send code and save hashed code on user
+      try {
+        await generateAndSend2FaCode(user);
+      } catch (err) {
+        console.error('[2FA] send code error', err);
+        return res.status(500).json({ message: 'Failed to send 2FA code' });
+      }
+
+      // return response telling client to open 2FA modal
+      return res.json({
+        twoFaRequired: true,
+        tempToken // client will include this as Authorization Bearer when verifying/resending
+      });
+    }
+if (!user.acceptedPrivacy || !user.acceptedTerms) {
+  // generate temporary token that allows accepting policies
+  const tempPolicyToken = generateTempPolicyToken(user._id, 60 * 10); // 10 min
+  // respond telling client to display policy-acceptance page
+  return res.json({
+    mustAcceptPolicies: true,
+    tempPolicyToken,
+    email: user.email,
+    // optionally minimal user info:
+    user: { id: user._id, email: user.email, role: user.role }
+  });
+}
       res.json({
         id: user._id,
         firstName: user.firstName,
@@ -295,7 +355,9 @@ const loginUser = async (req, res) => {
         paymentStatus: user.paymentStatus,
         gamification: user.gamification,
         transferStatus: user.transferStatus,
-        token: await GenerateToken(user._id)
+        token: await GenerateToken(user._id),
+        twoStepsVerify: !!user.twoStepsVerify,
+        twoFAMethod: user.twoFAMethod || 'email'
 
       });
     } else {
@@ -474,6 +536,19 @@ const loginUserGoogle = async (req, res) => {
       await user.save();
     }
 
+        // If user uses Google and has 2FA enabled -> start 2FA flow
+    if (user.twoStepsVerify) {
+      const tempToken = generateTemp2FaToken(user._id, 60 * 10); // 10 minutes
+      try {
+        await generateAndSend2FaCode(user);
+      } catch (err) {
+        console.error('[2FA] send code (google) error', err);
+        return res.status(500).json({ message: 'Failed to send 2FA code' });
+      }
+      return res.json({ twoFaRequired: true, tempToken });
+    }
+
+
     res.json({
       id: user._id,
       firstName: user.firstName,
@@ -510,4 +585,181 @@ const loginUserGoogle = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, loginUserGoogle, verifyEmail, resendVerificationEmail };
+const resendLoginTwoFa = async (req, res) => {
+  try {
+    // get temp token from Authorization header
+    let token = null;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (!token) return res.status(401).json({ message: 'Missing temp token' });
+
+    // decode temp token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ message: 'Temp token invalid or expired' });
+    }
+
+    if (!decoded || !decoded.id || !decoded.temp || decoded.purpose !== '2fa') {
+      return res.status(401).json({ message: 'Invalid temp token' });
+    }
+
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    await generateAndSend2FaCode(user);
+    return res.json({ message: '2FA code resent', expiresInSeconds: 600 });
+  } catch (err) {
+    console.error('[2FA] resend error', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Use numeric expiry (ms) approach
+const loginVerifyTwoFa = async (req, res) => {
+  try {
+    // get temp token from x-temp-token OR Authorization
+    let token = null;
+    if (req.headers['x-temp-token']) {
+      token = req.headers['x-temp-token'];
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (!token) return res.status(401).json({ message: 'Missing temp token' });
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log('[2FA] temp token decoded:', decoded);
+    } catch (err) {
+      console.error('[2FA] temp token validation failed:', err.message);
+      return res.status(401).json({ message: 'Temp token invalid or expired' });
+    }
+
+    if (!decoded || !decoded.id || !decoded.temp || decoded.purpose !== '2fa') {
+      return res.status(401).json({ message: 'Invalid temp token' });
+    }
+
+    const { code } = req.body;
+    if (!code) return res.status(400).json({ message: 'Code is required' });
+
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    console.log('[2FA] user fields before verify:', {
+      twoFATempCodeHash: !!user.twoFATempCodeHash,
+      twoFATempCodeExpire: user.twoFATempCodeExpire
+    });
+
+    if (!user.twoFATempCodeHash || !user.twoFATempCodeExpire) {
+      return res.status(400).json({ message: 'No 2FA code pending verification' });
+    }
+
+    // if you stored expiry as Number (ms)
+    if (Date.now() > user.twoFATempCodeExpire) {
+      user.twoFATempCodeHash = undefined;
+      user.twoFATempCodeExpire = undefined;
+      await user.save();
+      return res.status(400).json({ message: '2FA code expired' });
+    }
+
+    const match = await bcrypt.compare(code.toString(), user.twoFATempCodeHash);
+    if (!match) return res.status(400).json({ message: 'Invalid code' });
+
+    // success -> clear and issue final token
+    user.twoFATempCodeHash = undefined;
+    user.twoFATempCodeExpire = undefined;
+    await user.save();
+
+    const authToken = await GenerateToken(user._id);
+    return res.json({
+      token: authToken,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        avatar: user.avatar,
+        phoneNumber: user.phoneNumber
+      }
+    });
+  } catch (err) {
+    console.error('[2FA] verify login error', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// POST /auth/accept-policies
+const acceptPolicies = async (req, res) => {
+  try {
+    // temp token can be in header x-temp-token or Authorization Bearer
+    let token = null;
+    if (req.headers['x-temp-token']) token = req.headers['x-temp-token'];
+    else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (!token) return res.status(401).json({ message: 'Missing temp token' });
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ message: 'Temp token invalid or expired' });
+    }
+
+    if (!decoded || !decoded.id || !decoded.temp || decoded.purpose !== 'policy') {
+      return res.status(401).json({ message: 'Invalid temp token' });
+    }
+
+    const { marketingOptIn = false } = req.body;
+
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Mark required consents as accepted
+    user.acceptedTerms = true;
+    user.acceptedPrivacy = true; // required
+    user.marketingOptIn = !!marketingOptIn;
+    await user.save();
+
+    // Issue final auth token
+    const authToken = await GenerateToken(user._id);
+
+    return res.json({
+      token: authToken,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        avatar: user.avatar,
+        phoneNumber: user.phoneNumber,
+        acceptedTerms: user.acceptedTerms,
+        acceptedPrivacy: user.acceptedPrivacy,
+        marketingOptIn: user.marketingOptIn
+      }
+    });
+  } catch (err) {
+    console.error('acceptPolicies error', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+module.exports = { 
+  registerUser,
+  loginUser,
+  loginUserGoogle,
+  verifyEmail,
+  resendVerificationEmail,
+  resendLoginTwoFa,
+  loginVerifyTwoFa,
+  acceptPolicies
+
+ };

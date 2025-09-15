@@ -100,21 +100,55 @@ export const resetPassword = createAsyncThunk(
 );
 
 // Login User
+// export const loginUser = createAsyncThunk(
+//   "auth/login",
+//   async ({ email, password }, { rejectWithValue }) => {
+//     try {
+//       const response = await api.post("/auth/login", { email, password });
+
+//       // Store token in localStorage
+//       if (response.data.token) {
+//         localStorage.setItem("token", response.data.token);
+//         localStorage.setItem("user", response.data.user);
+//       }
+
+//       return {
+//         user: response.data,
+//         token: response.data.token,
+//         message: "Login successful",
+//       };
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data || "Login failed");
+//     }
+//   }
+// );
+
+// Login User
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, recaptchaToken } = {}, { rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/login", { email, password });
+      const payload = { email, password, recaptchaToken };
+      const response = await api.post("/auth/login", payload);
 
-      // Store token in localStorage
-      if (response.data.token) {
+      // If server indicates 2FA flow, return the server response directly
+        if (response.data && (response.data.twoFaRequired || response.data.mustAcceptPolicies)) {
+        // do NOT store token/user here — this is only a temp response
+        return response.data;
+      }
+
+      // Otherwise store token+user if present (final login)
+      if (response.data?.token) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", response.data.user);
+        // prefer explicit user field; fallback to response.data
+        try {
+          localStorage.setItem("user", JSON.stringify(response.data.user || response.data));
+        } catch (err) { /* ignore storage errors */ }
       }
 
       return {
-        user: response.data,
-        token: response.data.token,
+        user: response.data.user || response.data,
+        token: response.data.token || null,
         message: "Login successful",
       };
     } catch (error) {
@@ -122,6 +156,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -270,18 +305,37 @@ const authSlice = createSlice({
         state.error = null;
         state.message = null; // Clear previous message
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.message = action.payload.message || "Login successful";
+.addCase(loginUser.fulfilled, (state, action) => {
+  state.loading = false;
 
-        // Save user state in localStorage
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
-        localStorage.setItem("token", action.payload.token);
-        state.isUserLoggedIn = true;
-        state.error = null; // Clear any previous error
-      })
+  // If backend required 2FA, action.payload may be { twoFaRequired: true, tempToken: '...' }
+  if (action.payload && action.payload.twoFaRequired) {
+    state.message = action.payload.message || null;
+    state.error = null;
+    // Do NOT set state.user/state.token — final auth not yet granted
+    return;
+  }
+
+  // Normal successful login (final token + user)
+  state.user = action.payload.user;
+  state.token = action.payload.token;
+  state.message = action.payload.message || "Login successful";
+
+  try {
+    if (action.payload.user) {
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+    }
+    if (action.payload.token) {
+      localStorage.setItem("token", action.payload.token);
+    }
+  } catch (err) {
+    console.warn('Failed to save login to localStorage', err);
+  }
+
+  state.isUserLoggedIn = true;
+  state.error = null;
+})
+
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Login failed";

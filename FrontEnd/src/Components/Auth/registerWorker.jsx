@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { clearError, registerUser } from '../../../src/slices/login/loginSlice';
 import AuthSlider from "../../pages/AuthenticationInner/authCarousel";
 import logoLight from "../../assets/images/logo-light.png";
+import { Trans } from 'react-i18next'; // si pas déjà importé
+// import { Link } from 'react-router-dom'; // tu as déjà Link dans ton code, garde-le
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Import the custom Nestleo styling
 import "../../assets/scss/pages/_nestleoAuth.scss";
 
 const RegisterWorker = () => {
+const recaptchaRef = useRef(null);
+const [recaptchaToken, setRecaptchaToken] = useState(null);
+const SITE_KEY = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -163,6 +170,12 @@ const RegisterWorker = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLocalError(null);
+
+            // Client-side check: require reCAPTCHA token
+    if (!recaptchaToken) {
+      setLocalError(t('auth.pleaseCompleteRecaptcha') || 'Please complete the reCAPTCHA.');
+      return;
+    }
         const errors = validateFields();
         setFieldErrors(errors);
         if (Object.values(errors).some(Boolean)) {
@@ -171,8 +184,10 @@ const RegisterWorker = () => {
         }
         // Get current language from localStorage or i18next
         const currentLanguage = localStorage.getItem('I18N_LANGUAGE') || i18n.language || 'en';
-        const formDataWithLanguage = { ...formData, language: currentLanguage };
+        const formDataWithLanguage = { ...formData, language: currentLanguage, recaptcha: recaptchaToken  };
         const result = await dispatch(registerUser(formDataWithLanguage));
+         try { recaptchaRef.current?.reset(); } catch (e) { /* ignore */ }
+         setRecaptchaToken(null);
         const backendMsg = result.payload?.message || result.payload;
         if (result.error && result.error.message === "Rejected") {
             if (backendMsg === "User already exists") {
@@ -194,7 +209,7 @@ const RegisterWorker = () => {
         window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
     };
     return (
-        <div className="nestly-auth-wrapper">
+    <div className="nestly-auth-wrapper">
             <div className="nestly-bg-overlay"></div>
             <div className="container">
                 <div className="nestly-auth-card">
@@ -204,8 +219,8 @@ const RegisterWorker = () => {
                         </div>
                         <div className="nestly-auth-col-right">
                             <div className="nestly-auth-header">
-                                <h3>{t('auth.createNewAccount')}</h3>
-                                <p>{t('auth.createWorkerAccount')}</p>
+                                {/* <h3>{t('auth.createNewAccount')}</h3> */}
+                                <h3>{t('auth.createWorkerAccount')}</h3>
                             </div>
 
                             {error && <div className="nestly-alert nestly-alert-danger">{error.message}</div>}
@@ -370,36 +385,60 @@ const RegisterWorker = () => {
                                 {localError && (
                                     <div className="nestly-alert nestly-alert-danger" style={{ marginBottom: '1rem' }}>{localError}</div>
                                 )}
-                                <button
-                                    type="submit"
-                                    className="nestly-btn nestly-btn-primary nestly-btn-block"
-                                    disabled={loading}
-                                >
-                                    {loading ? (
-                                        <>
-                                            <span className="nestly-spinner"></span>
-                                            {t('auth.creatingAccount')}
-                                        </>
-                                    ) : t('auth.createAccount')}
-                                </button>
-                                <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-                                    <div className="nestly-social-buttons">
-                                        <button
-                                            type="button"
-                                            className="nestly-social-btn nestly-google"
-                                            onClick={handleGoogleSignIn}
-                                        >
-                                            <i className="ri-google-fill"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="nestly-auth-footer">
-                                    <p>{t('auth.alreadyHaveAccount')} <Link to="/connect" className="nestly-auth-link">{t('auth.signIn')}</Link></p>
-                                    <Link to="/landing" className="nestly-auth-link">
-                                        <i className="ri-arrow-left-line" style={{ fontSize: '14px', marginRight: '4px' }}></i>
-                                        {t('auth.backToHome')}
-                                    </Link>
-                                </div>
+            <div className="nestly-form-group" style={{ margin: '1rem 0', textAlign: 'center' }}>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={SITE_KEY}
+                onChange={token => setRecaptchaToken(token)}
+                onExpired={() => setRecaptchaToken(null)}
+                theme="light"
+              />
+              {localError && localError === (t('auth.pleaseCompleteRecaptcha') || 'Please complete the reCAPTCHA.') && (
+                <div className="nestly-field-error text-danger" style={{ marginTop: 6 }}>
+                  {localError}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="nestly-btn nestly-btn-primary nestly-btn-block"
+              disabled={loading|| !recaptchaToken}
+            >
+              {loading ? (
+                <>
+                  <span className="nestly-spinner" />{t('auth.creatingAccount')}
+                </>
+              ) : t('auth.createAccount')}
+            </button>
+
+            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+              <div className="nestly-social-buttons">
+                <button
+                  type="button"
+                  className="nestly-social-btn nestly-google"
+                  onClick={handleGoogleSignIn}
+                  aria-label={t('auth.signInWithGoogle')}
+                >
+                  <i className="ri-google-fill" />
+                </button>
+              </div>
+            </div>
+
+            <div className="nestly-auth-footer" style={{ marginTop: '1rem' }}>
+              <p>{t('auth.alreadyHaveAccount')} <Link to="/connect" className="nestly-auth-link">{t('auth.signIn')}</Link></p>
+            </div>
+
+            <div className="nestly-form-group" style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.8rem' }}>
+              <p>
+                {t('auth.agreeTerms')} <Link to="/TermsAndConditions"> {t('auth.service')} </Link> {t('auth.and')} <Link to="/privacy-policy"> {t('auth.PrivacyPolicy')} </Link>.
+              </p>
+
+              <Link to="/landing" className="nestly-auth-link">
+                <i className="ri-arrow-left-line" style={{ fontSize: '14px', marginRight: '4px' }} />
+                {t('auth.backToHome')}
+              </Link>
+            </div>
                             </form>
                         </div>
                     </div>
